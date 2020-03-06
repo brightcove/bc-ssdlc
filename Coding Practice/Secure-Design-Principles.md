@@ -2,7 +2,7 @@
 
 - [Minimize attack surface area](#minimize-attack-surface-area)
 - [Establish secure defaults](#establish-secure-defaults)
-- [Principle of least privilege](#principle-or-least-privilege)
+- [Principle of least privilege](#principle-of-least-privilege)
 - [Principle of Defense in Depth](#principle-of-defense-in-depth)
 - [Fail securely](#fail-securely)
 - [Don’t trust services and validate externally sourced data](#dont-trust-services-and-validate-externally-sourced-data)
