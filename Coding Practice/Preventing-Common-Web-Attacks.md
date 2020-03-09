@@ -313,8 +313,64 @@ critical depending on the application.
 CSRF attacks are usually targeted and need to be tailored to a specific application, but there have also been CSRF vulnerabilities 
 in commonly used libraries and frameworks that can be used by an attacker to target a multitude of sites at the same time.
 ###### References
+
 - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet
 - https://www.netsparker.com/blog/web-security/same-site-cookie-attribute-prevent-cross-site-request-forgery/
+
+ ---
+### Server-Side Request Forgery (SSRF)
+###### Description
+
+Server-Side Request Forgeries (SSRF), similar to CSRFs described above, abuse the trust given to remote data being sent 
+across a network. With CSRFs, this abuse occurs in the trust granted to a client-side request; the client sends a request
+that the server then (mistakenly) assumes should be executed. With SSRFs, this same abuse occurs, but with requests coming
+from other servers within Brightcove's network.
+###### Why We Care
+
+Often, organizations will grant more trust to endpoints _within_ their network than external hosts, such as internet endpoints.
+This means that when an SSRF vulnerability is found, it's often as simple as the attacker sending regular HTTP requests to
+gain access to internal-only data, such as PII.
+
+This has also become more of an issue with the usage of cloud computing. A lot of cloud computing companies grant trust to
+an individual computing instance that allows access to cloud APIs. An example of this would be AWS's metadata endpoint that's
+reachable from all EC2 instances: `169.254.169.254`
+
+Since Brightcove integrates with customers' media and APIs, we have a lot of our own APIs that support making arbitrary 
+network requests. The intention is to limit it to only legitimate customer content, but we've had SSRFs come up with these 
+endpoints in the past for these services.
+###### Example of Issue
+
+An example of this type of issue would be an API that fetches videos from an arbitrary URL. The URL is supplied via a GET
+variable:
+```
+GET /video?url=http://my.video.com/video.mp4
+```
+
+If this variable data isn't sanitized properly, and attacker could supply any URL, including one that's internally-accessible:
+```
+GET /video?url=http://admin.internal.company.com/secret-data
+```
+###### How to Fix?
+
+SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms.
+Specific instructions on fixing this will vary between languages, but in general:
+- Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
+- Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
+- Whitelist URLs, if possible
+- If it's not possible to whitelist certain URLs, ensure that all HTTP redirects (HTTP 30x) are followed until a non-30x
+response is returned
+  - This is to protect against URL shortener services that don't properly blacklist RFC-1918 IPs from the long URLs
+  - Ensure that you also limit the number of 30x redirects in order to prevent a DoS situation (100 is typically a good number)
+###### Security Level
+
+Depending on the case, SSRFs essentially allow an open proxy for outside attackers to run arbitrary network requests on 
+an organization's internal network. Since this is typically where sensitive data is stored, and internal networks commonly
+have less safeguards than external network zones, this often presents a Medium to High risk.
+###### References
+
+- https://portswigger.net/web-security/ssrf
+- https://blog.detectify.com/2019/01/10/what-is-server-side-request-forgery-ssrf/
+- https://owasp.org/www-community/attacks/Server_Side_Request_Forgery
 
  ---
 ### Credential Leaks
