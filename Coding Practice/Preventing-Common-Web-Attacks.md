@@ -290,6 +290,47 @@ Depending on the case, SSRFs essentially allow an open proxy for outside attacke
 - https://owasp.org/www-community/attacks/Server_Side_Request_Forgery
 
  ---
+### Arbitrary File Uploads
+###### Description
+
+Many web applications support features that require the user to upload a file from their client to a backend application/server. Acceptance of these arbitrary files presents several security concerns, especially regarding malware, XSS, and content-sniffing.
+###### Why We Care
+
+File uploads present a unique opportunity for attackers as they are able to write arbitrary files to a backend system. This often allows for greater access to internal networks, as well as increased vectors for subverting an application's logic.
+###### Example of Issue
+
+A public file upload service accepts files for upload and allows them to share them via a static link. Because the site does not properly handle these uploads, attackers are able to upload malware and JS files used alongside other XSS vulnerabilities.
+###### How to Fix?
+
+The way to securely accept files for upload essentially boils down to verifying the data being uploaded is exactly what you expect to be uploaded, e.g. don't accept or serve up Javascript files if your service is used for image sharing only.
+
+Recommendations include:
+- Implement a whitelist of file-types that your application is expected to accept
+  - Use a MIME-type analyzer library; don't rely on file extensions as they can be forged
+  - Don't bother with a blacklist as there's always some type of rare file-type that will get missing
+  - Ensure that you don't whitelist a file-type that can be executed by the web server of accepting server application
+    - E.g. don't whitelist `.php` files if your Apache instance if it has a mod_php installed
+    - For a full list of common MIME types, see [this Mozilla Developer Network page](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types)
+- Serve up uploaded files from a domain singularly used for these uploads
+  - e.g. if your webapp runs on app.domain.com, serve up files from files.domain.net
+- Generate and overwrite filenames
+  - Instead of keeping the client-supplied filename during persistent saving/service up of the file, generate a new filename based on unique, static details
+  - `<sha256_hash>-<epoch_timestamp_of_upload>.<file_ext>` is a good option
+  - This should be performed _before_ the file is saved to persistent storage
+- Restrict the size of the file to a sane file size limit
+  - The limit you choose depends on your application's use cases
+- When serving up files to users, ensure that the `Content-Type` header is set to the appropriate value
+  - e.g. serving up a `.txt` file should result in this header being set to `text/plain`
+- Ensure this part of your application particularly includes well-detailed logging
+
+###### Security Level
+
+Unrestricted file uploads to webapps can create security issues ranging in severity from Low to High depending on what vector they exploit and how it affects the target application.
+###### References
+
+- https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+
+ ---
 ### Credential Leaks
 ###### Description
 
