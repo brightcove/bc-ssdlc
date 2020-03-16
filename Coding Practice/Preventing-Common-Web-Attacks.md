@@ -8,6 +8,8 @@ This guideline covers how to prevent some common vulnerability classes that can 
 - [Cross-Site Scripting (XSS)](#preventing-xss)
 - [SQL Injection](#preventing-sql-injection)
 - [Cross-Site Request Forgery (CSRF)](#preventing-cross-site-request-forgery)
+- [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
+- [Arbitrary File Uploads](#arbitrary-file-uploads)
 - [Credential leaks](#credential-leaks)
 
 By following the guidelines in this document your application will be more robust against these vulnerability classes and provide a solid foundation for developers to develop secure features for the application.
