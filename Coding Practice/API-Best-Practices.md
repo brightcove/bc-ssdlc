@@ -99,8 +99,7 @@ An attacker sends a previous, genuine request to cause an action to happen again
 Modified requests in-transit: An attacker modifies data in the genuine request as it is sent.
 ###### Why We Care
 
-Some API requests (e.g. login-related requests) are time-sensitive, meaning they are only valid for a specific period of time.
-Not taking this time restriction into account could allow unauthorized usage or changes to resources.
+Some API requests (e.g. login-related requests) are time-sensitive, meaning they are only valid for a specific period of time. Not taking this time restriction into account could allow unauthorized usage or changes to resources.
 ###### How to Fix?
 
 Include timestamps within signed requests (see above) and deny all requests that are relatively too old.
@@ -126,13 +125,11 @@ No logging or monitoring missing security events
 Returning stack traces or other descriptive information of the service backend
 ###### How to Fix?
 
-Log and monitor API activity. Detecting anomalies can assist in finding malicious activity that isn’t apparent anywhere else.
-Ensuring that your application is coded and configured to log to our central log repository helps with monitoring and investigations.
+Log and monitor API activity. Detecting anomalies can assist in finding malicious activity that isn’t apparent anywhere else. Ensuring that your application is coded and configured to log to our central log repository helps with monitoring and investigations.
 
 Disable CORS (Cross-Origin Resource Sharing) if not needed, or scope it down as small as possible to prevent forged requests or data leakage.
 
-Return relatively vague error responses. Put as little information as possible when returning an error to the user. Do not return any 
-configuration data, information about the server environment, or debug information like stack traces.
+Return relatively vague error responses. Put as little information as possible when returning an error to the user. Do not return any configuration data, information about the server environment, or debug information like stack traces.
 ###### Risk Rating
 
 Ranging from Low to High depending on context.
