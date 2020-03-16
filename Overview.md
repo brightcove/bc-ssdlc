@@ -11,11 +11,9 @@
 
 ### Brightcove SSDLC Overview
 
-The goal of Brightcove's SSDLC is to provide product teams and developers best practices on how to leverage software 
-security practices into their existing development process. The phases in the graphic above may not be formally implemented 
-or recognized by your team, but they do generally represent how all software is developed, implicitly or explicitly. 
-Following this model, you are able to best determine what services the Brightcove Security Engineering team provides based 
-on what phase of of the development life-cycle you are currently in with your product.
+The goal of Brightcove's SSDLC is to provide product teams and developers best practices on how to leverage software security practices into their existing development process. The phases in the graphic above may not be formally implemented or recognized by your team, but they do generally represent how all software is developed, implicitly or explicitly. 
+
+Following this model, you are able to best determine what services the Brightcove Security Engineering team provides based on what phase of of the development life-cycle you are currently in with your product.
 
 All feedback is welcome - feel free to update/comment the docs directly or chat with the team on Slack (#team-infosec) or email (seceng@brightcove.com).
 

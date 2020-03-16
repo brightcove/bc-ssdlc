@@ -10,31 +10,25 @@ This guideline covers how to prevent some common vulnerability classes that can 
 - [Cross-Site Request Forgery (CSRF)](#preventing-cross-site-request-forgery)
 - [Credential leaks](#credential-leaks)
 
-By following the guidelines in this document your application will be more robust against these vulnerability classes and 
-provide a solid foundation for developers to develop secure features for the application.
+By following the guidelines in this document your application will be more robust against these vulnerability classes and provide a solid foundation for developers to develop secure features for the application.
 
 ## Recommendations
 ### Preventing Clickjacking
 ###### Description
 
-Clickjacking, also known as a "UI redress attack", occurs when an attacker uses a transparent or opaque iframe to trick a 
-user into clicking on a button or link on another page when they were intending to click on the the top level page.
+Clickjacking, also known as a "UI redress attack", occurs when an attacker uses a transparent or opaque iframe to trick a user into clicking on a button or link on another page when they were intending to click on the the top level page.
 ###### Why We Care
 
 With this attack, an attacker can trick the user into performing sensitive actions on a page that only the user has access to.
 ###### Example of Issue
 
-Say that we have a “Pay out” button on an internal advertising payout tool, and the application does not implement any 
-protection against Clickjacking. An attacker that knows the internal URL for the tool can now include a hidden iframe on 
-his site `www.cute-and-funny-puppies.net`:
+Say that we have a “Pay out” button on an internal advertising payout tool, and the application does not implement any protection against Clickjacking. An attacker that knows the internal URL for the tool can now include a hidden iframe on his site `www.cute-and-funny-puppies.net`:
 
 ```html
 <iframe src=”https://ads-awesome-payout-tool.unity3d.com” style=”opacity:100”></iframe>
 ```
 
-When an admin that gets bored of approving payouts visits the attacker’s site to view some funny dog pictures, he simultaneously 
-gets tricked into approving a payout for an attacker by clicking an element on the site that really clicks the payout button 
-in the hidden iframe.
+When an admin that gets bored of approving payouts visits the attacker’s site to view some funny dog pictures, he simultaneously gets tricked into approving a payout for an attacker by clicking an element on the site that really clicks the payout button in the hidden iframe.
 ###### How to Fix?
 
 Set the following HTTP response headers in your application:
@@ -44,9 +38,7 @@ Set the following HTTP response headers in your application:
     Content-Security-Policy: frame-ancestors 'self';
 ###### Security Level
 
-This attack is usually a pretty low risk because most application don’t have that many single click sensitive actions 
-and also because the attack has a social engineering component that requires the user to visit a site that the attacker 
-controls.
+This attack is usually a pretty low risk because most application don’t have that many single click sensitive actions and also because the attack has a social engineering component that requires the user to visit a site that the attacker controls.
 
 However, in the some cases the risk can be high if there is a button such as “Make user admin” in the application.
 ###### References
@@ -57,33 +49,22 @@ https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
 ### All the cool kids use HTTP Security Headers
 ###### Description
 
-Browser vendors are trying to help solve security issues that are common in web applications. However, they need to take 
-backward compatibility into account because the Internet is full of old websites. Therefore, some of the new security features 
-in browsers are opt-in, using HTTP Security headers which can be set by an application to enable these features. You should 
-do this for all your applications to take full advantage of modern browser security.
+Browser vendors are trying to help solve security issues that are common in web applications. However, they need to take backward compatibility into account because the Internet is full of old websites. Therefore, some of the new security features in browsers are opt-in, using HTTP Security headers which can be set by an application to enable these features. You should do this for all your applications to take full advantage of modern browser security.
 ###### Why We Care
 
-Setting HTTP Security headers mostly protects your users by turning on security features in their browser when visiting 
-Brightcove applications. We want to protect our customers so that they can safely browse our applications, even in 
-“hostile environments” such as airports or cafés, and this is a very cheap defense-in-depth security measure.  
+Setting HTTP Security headers mostly protects your users by turning on security features in their browser when visiting Brightcove applications. We want to protect our customers so that they can safely browse our applications, even in “hostile environments” such as airports or cafés, and this is a very cheap defense-in-depth security measure.  
 ###### Example of Issue
 
-For example: Almost all web applications redirect from HTTP->HTTPS so that users don’t have to type https:// at the start 
-of the url when they visit your site. However, if the user already had an active session on the site, the browser might 
-send some sensitive information on that very first HTTP request before it gets redirected. This information can be sniffed 
-by an attacker unless we take some precautions and tell it to always browse Brightcove applications over an encrypted connection.
+For example: Almost all web applications redirect from HTTP->HTTPS so that users don’t have to type https:// at the start of the url when they visit your site. However, if the user already had an active session on the site, the browser might send some sensitive information on that very first HTTP request before it gets redirected. This information can be sniffed by an attacker unless we take some precautions and tell it to always browse Brightcove applications over an encrypted connection.
 ###### How to Fix?
 
 We have a whole page dedicated to setting HTTP Security Headers which can be found here:
 [HTTP Header Security](./Coding%20Practive/HTTP-Header-Security.md)
 
-
-Read through the recommendations, add your headers in the early phases of the project, and make sure to choose a modern 
-front-end technology that is friendly to Content Security Policy.
+Read through the recommendations, add your headers in the early phases of the project, and make sure to choose a modern front-end technology that is friendly to Content Security Policy.
 ###### Security Level
 
-Adding security headers is basic security hygiene and you can see that large companies such as Facebook and Google are using 
-these. Web-based organizations such as Mozilla also require all their applications to implement them. 
+Adding security headers is basic security hygiene and you can see that large companies such as Facebook and Google are using these. Web-based organizations such as Mozilla also require all their applications to implement them. 
 ###### References
 
 Mozilla has a great web security guideline reference here which includes a lot about security headers:
@@ -94,18 +75,12 @@ https://infosec.mozilla.org/guidelines/web_security
 ### Preventing XSS
 ###### Description
 
-XSS or Cross-Site Scripting is perhaps the most common web application vulnerability out there. The vulnerability allows 
-an attacker to modify the front-end behaviour of your application by injecting Javascript or HTML into the application, 
-altering the intended behaviour for malicious purposes.
+XSS or Cross-Site Scripting is perhaps the most common web application vulnerability out there. The vulnerability allows an attacker to modify the front-end behaviour of your application by injecting Javascript or HTML into the application, altering the intended behaviour for malicious purposes.
 ###### Why We Care
 
-XSS vulnerabilities can be serious as they can be used to steal sensitive information, such as credentials, session tokens 
-or credit card data. It can be used to bypass firewalls and get access to internal networks - e.g. the Brightcove office 
-network - because it allows an attacker’s code to run in the the victim’s browser which may very well be running on a computer 
-in the office or that’s connected via VPN.
+XSS vulnerabilities can be serious as they can be used to steal sensitive information, such as credentials, session tokens or credit card data. It can be used to bypass firewalls and get access to internal networks - e.g. the Brightcove office network - because it allows an attacker’s code to run in the the victim’s browser which may very well be running on a computer in the office or that’s connected via VPN.
 
-It is also commonly used to attack browsers directly by injecting browser exploit code or, as has been seen lately, to steal 
-computing power to mine cryptocurrency by injecting currency mining code into an innocent website.
+It is also commonly used to attack browsers directly by injecting browser exploit code or, as has been seen lately, to steal computing power to mine cryptocurrency by injecting currency mining code into an innocent website.
 ###### Example of Issue
 
 There are two main types of XSS vulnerabilities: reflected and persistent. We will provide an example of both.
@@ -119,11 +94,9 @@ https://www.application.brightcove.com/newuser?name=<script>alert(1)</script>
 If this parameter ends up being treated as HTML by the application downstream, an alert box would pop up to prove we can inject Javascript.
 
 ####### Persistent
-An example of a persistent XSS attack would occur when arbitrary data coming from the user is stored in a _persistent_ database 
-and later included in a webpage displaying in a victim's browser.
+An example of a persistent XSS attack would occur when arbitrary data coming from the user is stored in a _persistent_ database and later included in a webpage displaying in a victim's browser.
 
-E.g.: a custom CMS application was designed for a blog, but any HTML entered as part of a blog post is unsanitized and gets 
-executed by the victim's browser.
+E.g.: a custom CMS application was designed for a blog, but any HTML entered as part of a blog post is unsanitized and gets executed by the victim's browser.
 ###### How to Fix?
 
 XSS prevention is a huge topic but the main takeaways are as follows:
@@ -132,36 +105,24 @@ XSS prevention is a huge topic but the main takeaways are as follows:
 - Sanitize all dynamic/user-supplied data - whether from a dynamic GET variable or a DBMS - before output to a web page
 - Implement a Content Security Policy that disallows inline Javascript
 
-The first and best way to fix this is to use a front-end framework that output encodes / escapes data by default making 
-it hard for any developer to make the mistake of not handling malicious input.
+The first and best way to fix this is to use a front-end framework that output encodes / escapes data by default making it hard for any developer to make the mistake of not handling malicious input.
 
-The following front-end frameworks are good choices that will make it harder to introduce XSS vulnerabilities as they were 
-designed with this in mind:
+The following front-end frameworks are good choices that will make it harder to introduce XSS vulnerabilities as they were designed with this in mind:
 
 - https://angular.io/guide/security#xss
 - https://reactjs.org/docs/introducing-jsx.html#jsx-prevents-injection-attacks
 
-There are more frameworks that have good default XSS prevention, but these two that are in use already at Brightcove, 
-and are supported and used by big companies such as Google and Facebook.
+There are more frameworks that have good default XSS prevention, but these two that are in use already at Brightcove, and are supported and used by big companies such as Google and Facebook.
 
-Secondly, make sure that your application sanitizes any dynamic data it utilizes before outputting it to a web page, and 
-optionally, when it's received by the user. This needs to be done on the server for it to be effective. Data can come from 
-many sources including (but not limited to) direct input by a user or data coming from another application. For example, 
-if you expect a phone number to be entered, make sure that your program validates that only expected data such as numbers, 
-dashes and maybe a + for country code is accepted by the application. Additionally, ensure that phone number is encoded and 
-sanitized before being included as a field in a web page. 
+Secondly, make sure that your application sanitizes any dynamic data it utilizes before outputting it to a web page, and optionally, when it's received by the user. This needs to be done on the server for it to be effective. Data can come from many sources including (but not limited to) direct input by a user or data coming from another application.
 
-There are many open-source, or otherwise free, libraries that can help with this: Joi for NodeJS, Ruby on Rails have Active 
-Record Validations, and so on.
+For example, if you expect a phone number to be entered, make sure that your program validates that only expected data such as numbers, dashes and maybe a + for country code is accepted by the application. Additionally, ensure that phone number is encoded and sanitized before being included as a field in a web page. 
 
-Finally, we can implement a safeguard mechanism against XSS issues that all modern browsers support. Content Security Policy i
-s effective in limiting the impact of XSS vulnerabilities should they occur in your application, even after you encode output 
-data and sanitize input.
+There are many open-source, or otherwise free, libraries that can help with this: Joi for NodeJS, Ruby on Rails have Active Record Validations, and so on.
 
-By carefully designing a CSP we can tell the browser which scripts are allowed to run and which aren’t. We can limit where 
-the application is allowed to load Javascript resources from, and we can disallow any inline Javascript. Malicious Javascript 
-injected by exploiting an XSS vulnerability usually ends up being inline in the HTML document and not in an external .js file, 
-so if we instruct the browser to not allow inline Javascript we can prevent a lot of the common XSS vulnerabilities.
+Finally, we can implement a safeguard mechanism against XSS issues that all modern browsers support. Content Security Policy is effective in limiting the impact of XSS vulnerabilities should they occur in your application, even after you encode output data and sanitize input.
+
+By carefully designing a CSP we can tell the browser which scripts are allowed to run and which aren’t. We can limit where the application is allowed to load Javascript resources from, and we can disallow any inline Javascript. Malicious Javascript injected by exploiting an XSS vulnerability usually ends up being inline in the HTML document and not in an external .js file, so if we instruct the browser to not allow inline Javascript we can prevent a lot of the common XSS vulnerabilities.
 
 An example policy that only allows script files from the domain the application lives on would look like this:
 
@@ -177,31 +138,21 @@ XSS vulnerabilities are very common, and constitute a Medium to High risk depend
 ### Preventing SQL Injection
 ###### Description
 
-SQL injection is an old vulnerability class which allows an attacker to alter an application’s SQL queries to perform other 
-actions than those intended by the developer. The problem occurs due to a lack of separation between data and code, 
-allowing an attacker to input data to alter the logic of a query.
+SQL injection is an old vulnerability class which allows an attacker to alter an application’s SQL queries to perform other actions than those intended by the developer. The problem occurs due to a lack of separation between data and code, allowing an attacker to input data to alter the logic of a query.
 
-SQL injection vulnerabilities are still found even in modern web applications, leading to loss of data, authentication bypass,
- and server compromise.
+SQL injection vulnerabilities are still found even in modern web applications, leading to loss of data, authentication bypass, and server compromise.
 
-Even applications that do not use traditional relational databases have been found to be vulnerable to SQL injection. If 
-user input is used to build the database query, an attacker can potentially alter the query being made and bypass authentication, 
-get unintended access to data, or perform remote code execution.
+Even applications that do not use traditional relational databases have been found to be vulnerable to SQL injection. If user input is used to build the database query, an attacker can potentially alter the query being made and bypass authentication, get unintended access to data, or perform remote code execution.
 ###### Why We Care
 
-Protecting data from attackers is paramount for any data-driven company, and protecting our web applications from SQL injection 
-is a very important part of preventing data from being stolen. Many of the breaches that have been seen over the years have 
-been caused by SQL injection in web applications, leading either to full server compromise or access to all data in the database.
+Protecting data from attackers is paramount for any data-driven company, and protecting our web applications from SQL injection is a very important part of preventing data from being stolen. Many of the breaches that have been seen over the years have been caused by SQL injection in web applications, leading either to full server compromise or access to all data in the database.
 ###### Example of Issue
 
-An example of this would be an API that allows users to fetch a list of video playlists. The API uses MySQL or another DBMS as 
-its backend, and of course has queries it runs to fetch the video playlist data. However, those queries are all generated from 
-dynamic, user-sourced data without any sort of parameterization or sanatization.
+An example of this would be an API that allows users to fetch a list of video playlists. The API uses MySQL or another DBMS as its backend, and of course has queries it runs to fetch the video playlist data. However, those queries are all generated from dynamic, user-sourced data without any sort of parameterization or sanatization.
 ###### How to Fix?
 ###### _Relational Databases (MySQL, PostgreSQL, ...)_
 
-All SQL queries should be **parameterized queries**. The exact syntax varies based on technology stack used, but usually 
-looks more or less like this:
+All SQL queries should be **parameterized queries**. The exact syntax varies based on technology stack used, but usually looks more or less like this:
 
 ```sql
 SELECT * FROM users WHERE username = ‘?’, username
@@ -215,8 +166,7 @@ Use an Object Relational Mapper (ORM) that helps you build queries securely. Thi
 
 Almost the same principles apply for protecting applications against NoSQL injection: 
 
-Sanitize user input that is used in queries. Check the type of the input (string, array, dict etc), and the expected format 
-against a regex or a whitelist.
+Sanitize user input that is used in queries. Check the type of the input (string, array, dict etc), and the expected format against a regex or a whitelist.
 
 Use a library to help you out such as Mongoose (similar to an ORM).
 
@@ -224,8 +174,8 @@ Limit the privileges of your database user to the minimum access needed for your
 ###### Security Level
 
 The severity of a SQL injection vulnerability ranges from high to critical depending on the application and context. 
-For example, a SQL injection in your auth provider would be a critical vulnerability because it could lead to compromise 
-of all user data and potentially bypass access controls.
+
+For example, a SQL injection in your auth provider would be a critical vulnerability because it could lead to compromise of all user data and potentially bypass access controls.
 ###### References
 
 - https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet
@@ -236,82 +186,57 @@ of all user data and potentially bypass access controls.
 ### Preventing Cross-Site Request Forgery
 ###### Description
 
-Cross-Site Request Forgery attacks allow an attacker to perform actions in an application in the context of an authenticated user. 
-By abusing the way cookies work, if the application’s authentication is cookie-based (e.g. a session cookie is stored and 
-sent with every request), an attacker can setup a website that makes requests to the application for instance via an iframe, 
-an image, or by automatically posting some form data and the browser will send along the cookies of the user.
+Cross-Site Request Forgery attacks allow an attacker to perform actions in an application in the context of an authenticated user. By abusing the way cookies work, if the application’s authentication is cookie-based (e.g. a session cookie is stored and sent with every request), an attacker can setup a website that makes requests to the application for instance via an iframe, an image, or by automatically posting some form data and the browser will send along the cookies of the user.
 
-This attack is done across origins from website www.malicious.com to www.application.unity.com so the attacker won’t be 
-able to read the response of the cross-origin request due to the Same-Origin Policy. However, this isn’t necessary for 
-the attack to succeed if the application only requires a session cookie and don’t validate that the request initiated 
-from the expected domain.
+This attack is done across origins from website www.malicious.com to www.application.unity.com so the attacker won’t be able to read the response of the cross-origin request due to the Same-Origin Policy. However, this isn’t necessary for the attack to succeed if the application only requires a session cookie and don’t validate that the request initiated from the expected domain.
 
-The attack can happen in the background on a malicious website while the user browses funny cat pictures and suspects nothing. 
-Exploitable actions can be anything the application allows, such as changing a password, changing shipping address, deleting a user, 
-or anything else that might be used to an attacker’s benefit.
+The attack can happen in the background on a malicious website while the user browses funny cat pictures and suspects nothing. Exploitable actions can be anything the application allows, such as changing a password, changing shipping address, deleting a user, or anything else that might be used to an attacker’s benefit.
 ###### Why We Care
 
-Cross-Site Request Forgery is a well-known attack vector today, but many prominent sites such as Gmail suffered from this 
-10 years ago. The attack is usually targeted towards a single user account, but if that user account is an administrator 
-of the application, the business consequences can be very serious.
+Cross-Site Request Forgery is a well-known attack vector today, but many prominent sites such as Gmail suffered from this 10 years ago. The attack is usually targeted towards a single user account, but if that user account is an administrator of the application, the business consequences can be very serious.
 ###### Example of Issue
 
-A lot of comsumer-grade routers are vulnerable to this. While they have authentication, a lot of the endpoints (e.g. changing 
-the admin password) do not check the authentication token properly.
+A lot of comsumer-grade routers are vulnerable to this. While they have authentication, a lot of the endpoints (e.g. changing the admin password) do not check the authentication token properly.
 
 Another example would be Studio allowing an attacker to add arbitrary users to any account via a user creation API.
 ###### How to Fix?
 
-There are several strategies to fixing this problem, and it depends a bit on the application’s architecture. Here are the main 
-strategies that are most commonly used and accepted as a standard way of solving this problem:
+There are several strategies to fixing this problem, and it depends a bit on the application’s architecture. Here are the main strategies that are most commonly used and accepted as a standard way of solving this problem:
 ###### _Authentication via HTTP header_
 
-Some auth APIs use the `“Authentication: Bearer <token goes here>”`  header for authentication. Requests that require an 
-authentication header to succeed are not vulnerable to CSRF attacks.
+Some auth APIs use the `“Authentication: Bearer <token goes here>”`  header for authentication. Requests that require an authentication header to succeed are not vulnerable to CSRF attacks.
 ###### _CSRF Tokens_
 
-This is the most common and accepted protection mechanism. It works by requiring every form submission and request that 
-performs an action to include a random CSRF token in the submitted data. Since this token is set and stored by the server, 
-and tied to a user’s session, an attacker won’t be able to access it or guess it. This prevents CSRF attacks from succeeding 
-as the server should reject any requests that don’t have a valid token.
+This is the most common and accepted protection mechanism. It works by requiring every form submission and request that performs an action to include a random CSRF token in the submitted data. Since this token is set and stored by the server, and tied to a user’s session, an attacker won’t be able to access it or guess it. This prevents CSRF attacks from succeeding as the server should reject any requests that don’t have a valid token.
 
 The first thing to make sure is that your application uses the HTTP GET and POST verbs appropriately. See http://guides.rubyonrails.org/security.html#csrf-countermeasures
 
-Next you should look at your web application framework to see if they have support for CSRF tokens. Most frameworks, like 
-Ruby on Rails as mentioned above, will either have built-in support for easily adding CSRF tokens, or libraries that help implement it. 
+Next you should look at your web application framework to see if they have support for CSRF tokens. Most frameworks, like Ruby on Rails as mentioned above, will either have built-in support for easily adding CSRF tokens, or libraries that help implement it. 
 
 Here are two popular options for NodeJS and Golang:
+
 - https://github.com/expressjs/csurf
 - https://github.com/utrack/gin-csrf
 
 ###### _Samesite Cookies_
 
-This is the third mechanism for protecting against CSRF. It is a new browser feature that allows marking cookies with a 
-flag controlling whether requests initiated from a third-party site will include the cookies.
+This is the third mechanism for protecting against CSRF. It is a new browser feature that allows marking cookies with a flag controlling whether requests initiated from a third-party site will include the cookies.
 
 There are two modes: strict and lax.
 
-Strict mode prevents the browser from sending the cookies cross-origin for any request. This can have negative consequences 
-in situations where a logged-in user clicks a link leading back to an authenticated page in the application because the 
-cookies won’t be sent along with the request, and the user needs to reauthenticate.
+Strict mode prevents the browser from sending the cookies cross-origin for any request. This can have negative consequences in situations where a logged-in user clicks a link leading back to an authenticated page in the application because the cookies won’t be sent along with the request, and the user needs to reauthenticate.
 
-Lax mode prevents this situation and allows GET requests to send along the cookies. Requests using any other HTTP verbs 
-won’t send along the cookies. If the application uses HTTP verbs appropriately this would normally be enough to prevent 
-CSRF attacks because the application shouldn’t use a GET request to perform any action in the application.
+Lax mode prevents this situation and allows GET requests to send along the cookies. Requests using any other HTTP verbs won’t send along the cookies. If the application uses HTTP verbs appropriately this would normally be enough to prevent CSRF attacks because the application shouldn’t use a GET request to perform any action in the application.
 
 - Set Lax mode: `Set-Cookie: CookieName=CookieValue; SameSite=Lax;`
 - Set Strict mode: `Set-Cookie: CookieName=CookieValue; SameSite=Strict;`
 
-Since this is a very new browser security feature, not all browsers support it yet and not all frameworks have APIs for 
-setting cookies with this flag. Consider implementing it though, as it is simple, unobtrusive, and effective way of preventing 
-CSRF attacks and browser support is likely to increase in the future.
+Since this is a very new browser security feature, not all browsers support it yet and not all frameworks have APIs for setting cookies with this flag. Consider implementing it though, as it is simple, unobtrusive, and effective way of preventing CSRF attacks and browser support is likely to increase in the future.
 ###### Security Level
 
-The example above shows how serious CSRF vulnerabilities can be. The impact of a CSRF vulnerability can range from low to 
-critical depending on the application.
+The example above shows how serious CSRF vulnerabilities can be. The impact of a CSRF vulnerability can range from low to critical depending on the application.
 
-CSRF attacks are usually targeted and need to be tailored to a specific application, but there have also been CSRF vulnerabilities 
-in commonly used libraries and frameworks that can be used by an attacker to target a multitude of sites at the same time.
+CSRF attacks are usually targeted and need to be tailored to a specific application, but there have also been CSRF vulnerabilities in commonly used libraries and frameworks that can be used by an attacker to target a multitude of sites at the same time.
 ###### References
 
 - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet
@@ -321,27 +246,17 @@ in commonly used libraries and frameworks that can be used by an attacker to tar
 ### Server-Side Request Forgery (SSRF)
 ###### Description
 
-Server-Side Request Forgeries (SSRF), similar to CSRFs described above, abuse the trust given to remote data being sent 
-across a network. With CSRFs, this abuse occurs in the trust granted to a client-side request; the client sends a request
-that the server then (mistakenly) assumes should be executed. With SSRFs, this same abuse occurs, but with requests coming
-from other servers within Brightcove's network.
+Server-Side Request Forgeries (SSRF), similar to CSRFs described above, abuse the trust given to remote data being sent across a network. With CSRFs, this abuse occurs in the trust granted to a client-side request; the client sends a request that the server then (mistakenly) assumes should be executed. With SSRFs, this same abuse occurs, but with requests coming from other servers within Brightcove's network.
 ###### Why We Care
 
-Often, organizations will grant more trust to endpoints _within_ their network than external hosts, such as internet endpoints.
-This means that when an SSRF vulnerability is found, it's often as simple as the attacker sending regular HTTP requests to
-gain access to internal-only data, such as PII.
+Often, organizations will grant more trust to endpoints _within_ their network than external hosts, such as internet endpoints. This means that when an SSRF vulnerability is found, it's often as simple as the attacker sending regular HTTP requests to gain access to internal-only data, such as PII.
 
-This has also become more of an issue with the usage of cloud computing. A lot of cloud computing companies grant trust to
-an individual computing instance that allows access to cloud APIs. An example of this would be AWS's metadata endpoint that's
-reachable from all EC2 instances: `169.254.169.254`
+This has also become more of an issue with the usage of cloud computing. A lot of cloud computing companies grant trust to an individual computing instance that allows access to cloud APIs. An example of this would be AWS's metadata endpoint that's reachable from all EC2 instances: `169.254.169.254`
 
-Since Brightcove integrates with customers' media and APIs, we have a lot of our own APIs that support making arbitrary 
-network requests. The intention is to limit it to only legitimate customer content, but we've had SSRFs come up with these 
-endpoints in the past for these services.
+Since Brightcove integrates with customers' media and APIs, we have a lot of our own APIs that support making arbitrary network requests. The intention is to limit it to only legitimate customer content, but we've had SSRFs come up with these endpoints in the past for these services.
 ###### Example of Issue
 
-An example of this type of issue would be an API that fetches videos from an arbitrary URL. The URL is supplied via a GET
-variable:
+An example of this type of issue would be an API that fetches videos from an arbitrary URL. The URL is supplied via a GET variable:
 ```
 GET /video?url=http://my.video.com/video.mp4
 ```
@@ -352,27 +267,22 @@ GET /video?url=http://admin.internal.company.com/secret-data
 ```
 ###### How to Fix?
 
-SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms.
-Specific instructions on fixing this will vary between languages, but in general:
+SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms. Specific instructions on fixing this will vary between languages, but in general:
 - Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
 - Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
 - Whitelist URLs, if possible
   - Don't bother trying to blacklist; there's too many protocols and URL schemes to account for for this to be effective
-- If it's not possible to whitelist certain URLs, ensure that all HTTP redirects (HTTP 30x) are followed until a non-30x
-response is returned
+- If it's not possible to whitelist certain URLs, ensure that all HTTP redirects (HTTP 30x) are followed until a non-30x response is returned
   - This is to protect against URL-shortener services that don't properly blacklist RFC-1918 IPs from the long URLs
   - Ensure that you also limit the number of 30x redirects in order to prevent a DoS situation (100 is typically a good number)
 - Limit the HTTP verbs/methods that can be used with your API
   - Ex: if your API just serves up static data read by other services, allow GET requests and generate an error for all others
 - Use authentication for internal services whenever possible
   - This is especially important with databases, e.g. Redis, Kibana, etc
-  - This practice falls in line with Zero-Trust Architecture, the primary security architecture framework employed by Brightcove Security
-  Engineering
+  - This practice falls in line with Zero-Trust Architecture, the primary security architecture framework employed by Brightcove Security Engineering
 ###### Security Level
 
-Depending on the case, SSRFs essentially allow an open proxy for outside attackers to run arbitrary network requests on 
-an organization's internal network. Since this is typically where sensitive data is stored, and internal networks commonly
-have less safeguards than external network zones, this often presents a Medium to High risk.
+Depending on the case, SSRFs essentially allow an open proxy for outside attackers to run arbitrary network requests on an organization's internal network. Since this is typically where sensitive data is stored, and internal networks commonly have less safeguards than external network zones, this often presents a Medium to High risk.
 ###### References
 
 - https://portswigger.net/web-security/ssrf
@@ -383,39 +293,27 @@ have less safeguards than external network zones, this often presents a Medium t
 ### Credential Leaks
 ###### Description
 
-Application development requires integration with a growing number of services. This requires developers to handle a number 
-of secrets: Database credentials, api tokens, oauth secrets etc. These should be high-entropy, unique per service and per environment, 
-leading to large number of secrets to manage. These often end up being stored in configuration files which are then accidentally 
-checked into your favorite version control system on a publicly accessible cloud-hosted repositories, and in turn, into the hands 
-of attackers.
+Application development requires integration with a growing number of services. This requires developers to handle a number of secrets: Database credentials, api tokens, oauth secrets etc. These should be high-entropy, unique per service and per environment, leading to large number of secrets to manage. These often end up being stored in configuration files which are then accidentally checked into your favorite version control system on a publicly accessible cloud-hosted repositories, and in turn, into the hands of attackers.
 ###### Why We Care
 
-Secrets are secret for a reason and often provide access to a lot of data, computing resources or privileged accounts. It 
-is therefore crucial that we handle secrets well, and make the probability of accidental leaks as small as possible.
+Secrets are secret for a reason and often provide access to a lot of data, computing resources or privileged accounts. It is therefore crucial that we handle secrets well, and make the probability of accidental leaks as small as possible.
 ###### Example of Issue
 
-Credential leaks to Github are a common, and troublesome issue within the industry. This can give malicious actors access 
-to internal systems, data, APIs and more.
+Credential leaks to Github are a common, and troublesome issue within the industry. This can give malicious actors access to internal systems, data, APIs and more.
 
 There are also other examples, such as accidentally hosting script files that contain credentials on a public web server.
 ###### How to Fix?
 
 When developing an application, it is best practice to load secrets from environment variables. This has a few benefits: 
 
-First, it stores the credentials in the running process’ address space. This means that other user accounts on the machine 
-that aren’t privileged, won’t be able to access the credentials.
+First, it stores the credentials in the running process’ address space. This means that other user accounts on the machine that aren’t privileged, won’t be able to access the credentials.
 
-Secondly, it separates the secrets from your application's normal configuration files, which are often checked into version 
-control systems. When developing the application, use a .env file for storing the secrets and load them into your environment 
-before running the application locally.
+Secondly, it separates the secrets from your application's normal configuration files, which are often checked into version control systems. When developing the application, use a .env file for storing the secrets and load them into your environment before running the application locally.
 
 For more internal information on how to securely store secrets, visit [our internal guide to secret data storage](https://confluence.brightcove.com/display/IS/Storing+Application+Secrets+Securely)
 
-The Security Engineering team does utilize a tool for monitoring of secrets in source code repositories. But this mechanism 
-is passive, and only supposed to be the last line of defense and to avoid credential leaks. It is up to the developer to 
-be diligent when handling these sensitive pieces of data.
+The Security Engineering team does utilize a tool for monitoring of secrets in source code repositories. But this mechanism is passive, and only supposed to be the last line of defense and to avoid credential leaks. It is up to the developer to be diligent when handling these sensitive pieces of data.
 ###### Security Level
 
-Leaking credentials can be critical as they often grant a high level of access to Brightcove systems (especially third-party 
-SaaS services) and can lead to compromise of data and systems.
+Leaking credentials can be critical as they often grant a high level of access to Brightcove systems (especially third-party SaaS services) and can lead to compromise of data and systems.
 
