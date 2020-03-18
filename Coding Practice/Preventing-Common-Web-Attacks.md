@@ -74,6 +74,55 @@ Mozilla has a great web security guideline reference here which includes a lot a
 https://infosec.mozilla.org/guidelines/web_security
 
 ---
+### HTTP Request Smuggling (a.k.a. HTTP Desync Attacks)
+###### Description
+
+HTTP Request Smuggling is a technique used to "smuggle" malicious HTTP requests along with valid, authorized HTTP requests. This is facilitated by abusing the `Content-Length` and `Transfer-Encoding` HTTP headers, and taking advantage of discrepancies between technologies in handling non-compliant HTTP requests.
+###### Why We Care
+
+Allowing an unauthorized request into our network backend can create a very large impact depending on how much network access there is for the affected endpoint. Ensuring each HTTP request is uniformly processed will help prevent unauthorized access to Brightcove's backend services.
+###### Example of Issue
+
+Suppose an attacker sent an HTTP request like the one below to a load-balancer sitting upstream from a public web application: 
+```
+POST login.html HTTP/1.1
+Host: www.example.com
+Content-Length: 6
+Transfer-Encoding: chunked
+
+53
+GET admin_console.html HTTP/1.1
+Host: www.example.com
+0
+```
+
+In the above example, the load-balancer software uses the `Transfer-Encoding` header, while the backend application uses the `Content-Length` header. The load-balancer transfers the next 53 bytes of data as a single request onto the backend. The backend application will see the `Content-Length` is set to `6`, end the first request after the `53`, and then treat the next set of data it receives as a separate request.
+
+Other techniques include using `Transfer-Encoding` then the `Content-Length` headers, as well as using multiple `Transfer-Encoding` headers, the second being obfuscated in order to take advantage of discrepancies in how technologies tolerate invalid header characters.  
+
+For a real world example, see a [recently disclosed vulnerability in Slack](https://hackerone.com/reports/737140) that allowed account takeovers using this technique. 
+###### How to Fix?
+
+* Prevent the use of backend connection reuse so that each request sent to the backend application by the front-end is in a separate layer 4 connection
+  * This can sometimes increase overhead and performance of your application, so isn't recommended for applications with high-traffic use cases
+* Use HTTP/2 for backend connections as it is not affected by this type of vulnerability
+* Use the same web server or library across all servers that process HTTP requests for the given application
+###### Security Level
+
+HTTP Request Smuggling attacks typically introduce the same amount of risk as CSRF or SSRF vulnerabilities, so usually Medium to High.
+###### References
+
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding
+
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Length
+
+- https://cwe.mitre.org/data/definitions/444.html
+
+- https://portswigger.net/web-security/request-smuggling
+
+- http://projects.webappsec.org/w/page/13246928/HTTP%20Request%20Smuggling
+
+---
 ### Preventing XSS
 ###### Description
 
@@ -133,7 +182,9 @@ An example policy that only allows script files from the domain the application 
 
 XSS vulnerabilities are very common, and constitute a Medium to High risk depending on context and application.
 ###### References
+
 - https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
+
 - https://csp.withgoogle.com/
 
 ---
