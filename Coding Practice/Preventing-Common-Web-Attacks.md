@@ -142,7 +142,9 @@ There are two main types of XSS vulnerabilities: reflected and persistent. We wi
 Reflected XSS vulnerabilities are essentially dynamically-induced. They occur due to an injection of code via a dynamically-set variable.
 E.g.:
 
+```
 https://www.application.brightcove.com/newuser?name=<script>alert(1)</script>
+```
 
 If this parameter ends up being treated as HTML by the application downstream, an alert box would pop up to prove we can inject Javascript.
 
