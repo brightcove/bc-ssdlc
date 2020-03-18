@@ -5,6 +5,7 @@
 This guideline covers how to prevent some common vulnerability classes that can be eradicated, such as:
 - [Clickjacking](#preventing-clickjacking)
 - [HTTPS Downgrade (HTTP Security Header)](#all-the-cool-kids-use-http-security-headers)
+- [HTTP Request Smuggling](#http-request-smuggling-aka-http-desync-attacks)
 - [Cross-Site Scripting (XSS)](#preventing-xss)
 - [SQL Injection](#preventing-sql-injection)
 - [Cross-Site Request Forgery (CSRF)](#preventing-cross-site-request-forgery)
