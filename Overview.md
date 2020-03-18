@@ -21,7 +21,6 @@ Our SSDLC is currently organized under the following topics:
 - [Coding Practice](./Coding%20Practice)
 - [Language Best Practices](./Language%20Best%20Practices)
 - [Security Process](./Security%20Process)
-- [Tools & Automation](./Tools%20and%20Automation)
 
 ## Shortcut List of Articles 
 #### _Coding Practice_
