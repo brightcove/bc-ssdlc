@@ -39,6 +39,3 @@ Our SSDLC is currently organized under the following topics:
 
 #### _Security Process_
 - [Security Requirements](./Security%20Process/Security-Requirements.md)
-
-#### _Tools & Automation_
-- [Tools & Automation](./Tools%20and%20Automation/readme.md)
