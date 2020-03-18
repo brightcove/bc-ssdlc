@@ -15,6 +15,12 @@ These guidelines will cover general points like:
 **Authentication** is the process of verifying the user’s identity typically through an initial login and subsequently by verifying a unique secret identifier on each HTTP request made by the user’s browser.
 
 **Authorization** is the process of ensuring a user can only access resources they are supposed to, usually based on some role or Risk Rating that is defined according to business logic.
+
+## Authentication Guidelines
+The US NIST maintains a very detailed white paper on digital authentication - [NIST-800 63](https://pages.nist.gov/800-63-3/sp800-63b.html) - that is consistently updated as authentication requirements in technology change. 
+
+The guidelines for authentication mechanisms in particular (e.g. passwords, OTP devices, etc) - including recommended password configurations and minimum requirements - can be found in [Section 5](https://pages.nist.gov/800-63-3/sp800-63b.html#sec5).
+
 ## Recommendations
 ### Require Multi-Factor Authentication for Sensitive Applications
 ###### Description
