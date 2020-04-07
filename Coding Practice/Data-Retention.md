@@ -26,6 +26,9 @@ There are several best practices you can introduce to maintain responsible reten
 * Regularly reassess the retention needs of the application as time goes on
 * Keep in mind compliance frameworks and privacy laws, such as GDPR
 * Ensure there's an easy and straightforward process involved for fully deleting the data set, when ready
+* Make sure that data is encrypted when needed, both during transport and at rest
+    * Ex: customer information used in the example user analytics above should be sent over TLS, and any databases the data is stored in should be encrypted at the database level
+    * AWS RDS databases and S3 buckets both offer an encryption at rest option
 ###### Risk Rating
 
 The risk associated with improperly retained data range from Low to High, depending on the data involved.
