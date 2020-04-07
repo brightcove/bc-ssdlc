@@ -1,6 +1,7 @@
 # HTTP Header Security [Coding Practice]
 
 ## Overview
+
 This document describes the HTTP security headers that we strongly recommend are implemented on all of Brightcove’s Internet-facing services. 
 
 https://observatory.mozilla.org can be used to check your site's current headers. The headers are listed in order of importance, but please note that a proper secure Content Security Policy can be difficult to implement unless the application is designed from the beginning with this in mind.
@@ -16,7 +17,8 @@ For applications that only offer web APIs; check the recommendations under [API]
 - [Referrer-Policy](#referrer-policy)
 - [API](#api)
 
-#### HTTP Strict Transport Security
+## Headers
+### HTTP Strict Transport Security
 
 The strict transport security header tells browsers to load the website over encrypted connections only from now on. This helps avoid what is called SSL stripping attacks where an attacker who are in a Man-In-The-Middle position downgrades a user to an insecure connection.
 
@@ -32,7 +34,7 @@ Once confident that it's working you should aim for a max-age of minimum 6 month
     
     Strict-Transport-Security: max-age=63072000
 ---
-#### Content-Security-Policy (CSP)
+### Content-Security-Policy (CSP)
 
 This header aims to reduce, and even eliminate, the impact of XSS (Cross-Site Scripting) attacks. It can be used to tell the browser where the website is supposed to load web resources from.
 
@@ -78,7 +80,7 @@ E.g:
 Note that you would need a reporting endpoint to receive the CSP violation reports at `<your-domain-name>/csp-violation-report-endpoint` for this last example to work properly. 
 
 ---
-#### X-Frame-Options
+### X-Frame-Options
 
 This header tells the browser if framing the website is allowed by other domains. By setting this header to a list of allowed domains, or (preferably) simply deny framing, we can prevent Clickjacking attacks. Read more about clickjacking attacks here: https://www.owasp.org/index.php/Clickjacking
 
@@ -91,7 +93,7 @@ This header tells the browser if framing the website is allowed by other domains
 X-Frame-Options is being replaced by the Content-Security Policy header's "frame-ancestors" attribute. This attribute is more flexible and should be added as well. 
  
 ---
-#### X-Content-Type-Options
+### X-Content-Type-Options
 
 This header tells the browser not to guess the MIME (Multipurpose Internet Mail Extension) type of the content served, but instead trust the “Content-Type” header. Without the X-Content-Type-Options header set, some older browsers can incorrectly detect files as scripts and stylesheets, potentially leading to XSS attacks.
 
@@ -100,7 +102,7 @@ This header tells the browser not to guess the MIME (Multipurpose Internet Mail 
     X-Content-Type-Options: nosniff
 
 ---
-#### Referrer-Policy
+### Referrer-Policy
 
 The header basically controls what is being sent in the referer header. The security benefit from using this header is to avoid situations where session identifiers or other sensitive information which is transmitted in the URL is passed to other domains via the referer header.
 
@@ -113,7 +115,7 @@ There are different options here which range from sending no referer header what
 We can also want to do "Referrer-Policy: strict-origin" to only send the referrer header to sites that are HTTPS to protect the user's privacy. Just take into consideration that it's currently not supported on Edge and Safari.
 
 ---
-#### API
+### Notes on APIs
 
 For APIs (Application Programming Interfaces) we want to ensure traffic is encrypted and restrict the potential impact of XSS vulnerabilities e.g. in error pages then they can't be used to run Javascript due to the Content-Security Policy not allowing scripts or iframes.
 

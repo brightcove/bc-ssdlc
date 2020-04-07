@@ -26,6 +26,7 @@ Our SSDLC is currently organized under the following topics:
 #### _Coding Practice_
 - [API Best Practices](./Coding%20Practice/API-Best-Practices.md)
 - [Authorization & Authentication Guidelines](./Coding%20Practice/AuthZ-AuthN-Guidelines.md)
+- [Data Retention](./Coding%20Practice/Data-Retention.md)
 - [HTTP Header Security](./Coding%20Practice/HTTP-Header-Security.md)
 - [Preventing Common Web Attacks](./Coding%20Practice/Preventing-Common-Web-Attacks.md)
 - [Secure Design Principles](./Coding%20Practice/Secure-Design-Principles.md)
