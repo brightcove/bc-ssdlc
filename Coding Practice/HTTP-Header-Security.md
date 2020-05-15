@@ -11,11 +11,11 @@ Therefore, try to get some quick wins with headers such as: `HTTP Strict Transpo
 For applications that only offer web APIs; check the recommendations under [API](#api) at the bottom of the page.
 
 - [HTTP Strict Transport Security](#http-strict-transport-security)
-- [Content-Security-Policy](#content-security-polict)
+- [Content-Security-Policy](#content-security-policy-csp)
 - [X-Frame-Options](#x-frame-options)
 - [X-Content-Type-Options](#x-content-type-options)
 - [Referrer-Policy](#referrer-policy)
-- [API](#api)
+- [API](#notes-on-apis)
 
 ## Headers
 ### HTTP Strict Transport Security
