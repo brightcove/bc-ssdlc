@@ -50,7 +50,7 @@ Quoted from Mozilla:
 
 Take a look at this site for more info: https://csp.withgoogle.com/.
 
-Google has found that most CSP utilising whitelisting does not prevent XSS because they are bypassable due to abusable endpoints on the whitelisted domains (such as google.com). Therefore the recommended approach is no longer whitelisting but use of hashes or nonces. This is a bit more tricky to implement as it requires that every `<script>` tag has an associated randomly generated nonce that is set in the CSP header in the server response. The same nonce must be set on every script tag through e.g. passing it to the template system. 
+Google has found that most CSP policies that utilize whitelisting do not prevent XSS, mainly because they are bypassable due to abusable endpoints on the whitelisted domains (such as google.com). Therefore, the recommended approach is no longer whitelisting, but use of hashes or nonces. This is a bit more tricky to implement as it requires that every `<script>` tag has an associated randomly-generated nonce that is set in the CSP header sent withing the server response. Additionally, the associated `<script>` tag must also have the same nonce added to it via the `nonce` attribute. 
 
 E.g:
 
