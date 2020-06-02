@@ -27,7 +27,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Allow local accounts to be configured for use with Multi-Factor Authentication | Required for sensitive applications | [AuthZ and AuthN Guidelines - Require MFA](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#require-multi-factor-authentication-for-sensitive-applications) |
 #### Network-Accessible Applications
 
-**Ex:** apache2, an encoding application listening on port 12345 for encoding requests
+**Ex:** an encoding application listening on port 12345 for encoding requests and serving up completed encoding jobs
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
