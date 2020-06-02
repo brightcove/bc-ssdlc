@@ -1,4 +1,4 @@
-# Application Security Requirements at Unity [Security Process]
+# Application Security Requirements at Brightcove [Security Process]
 
 ### What are Security Requirements?
 
@@ -19,8 +19,8 @@ An example of security requirements that an application can encounter:
   - Requirement for any application that receives untrusted data, and exposes said data back to the user. Ensures the authenticity and integrity of the data consumed by the application.
 - Secrets Management
   - Requirements for where to store secrets, such as API tokens, that are used by the application.
-- Encryption
-  - Requirements for how and when to encrypt data at rest or in transit.
+- Encryption and Data Retention
+  - Requirements for how and when to encrypt data at rest or in transit, as well as how long to keep the data stored.
 - Logging
   - Requirement for almost all applications to ensure non-repudiation of application actions.
 ### Once I have these requirements, what do I do?
