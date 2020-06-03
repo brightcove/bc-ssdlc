@@ -85,3 +85,9 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | ------ | ------------------------------ | ------------------ |
 | Sensitive data must be encrypted-at-rest when stored persistently | Requirement | See internal SSDLC document |
 ### Logging
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | N/A |  
+| Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Requirement | N/A |
+| Ensure logs are retained for at least 30 days | Requirement | N/A |
