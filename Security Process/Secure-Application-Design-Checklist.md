@@ -2,7 +2,7 @@
 
 ## What is the Secure Application Design Checklist?
 
-The **Secure Application Design Checklist** is a list of requirements and suggestions that a product manager, architect, etc can go through to make sure they've fully covered security during their application design phase.
+The **Secure Application Design Checklist** is a list of requirements and suggestions that a product manager, architect, or other development personnel can run through to make sure they've fully covered all security requirements during their SDLC process.
 
 The checklist is based on the list of security requirements outlined in the [Security Requirements](./Security-Requirements.md) document.
 ## Checklist
@@ -67,23 +67,23 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure TLS is used for all network communications, both internal and external | Requirement | N/A |
-| When configuring TLS, ensure secure ciphers are used | Requirement | See internal SSDLC document |
+| Ensure TLS is used for all network communications, both internal and external | Requirement | [BC Internal - Guide to TLS - Should I Use TLS?](https://confluence.brightcove.com/display/IS/Guide+to+TLS#GuidetoTLS-ShouldIUseTLSForMyApplication'sNetworkCommunications?) |
+| When configuring TLS, ensure secure ciphers are used | Requirement | [BC Internal - Guide to TLS - Protocol and Ciphers](https://confluence.brightcove.com/display/IS/Guide+to+TLS#GuidetoTLS-ProtocolsandCiphers) |
 | Use HTTP Strict-Transport Security (HSTS) for all HTTP requests | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
 | Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP endpoints before directing them to a TLS endpoint | Requirement | N/A |
 #### User Management
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure passwords are hashed, not encrypted | Requirement | See internal SSDLC document |
-| Passwords must be salted when stored, before being hashed | Requirement | See internal SSDLC document | 
-| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | See internal SSDLC document |
-| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | See internal SSDLC document |
+| Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
+| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) | 
+| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
+| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
 #### Persistent Data Encryption
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Sensitive data must be encrypted-at-rest when stored persistently | Requirement | See internal SSDLC document |
+| Sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
 ### Logging
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
