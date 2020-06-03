@@ -83,7 +83,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
+| Confirm sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
 ### Logging
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
@@ -91,3 +91,10 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | N/A |  
 | Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Requirement | N/A |
 | Ensure logs are retained for at least 30 days | Requirement | N/A |
+### Data Retention
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Ensure all data points - especially PII - include a method for automated or on-demand removal | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
+| Make sure to set a static expiration date for all data points of a given set | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
+| Expiration dates set for data points must be set only as long as the data's usable lifespan to the business | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
