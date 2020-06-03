@@ -39,11 +39,14 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure any untrusted input is properly encoded before or upon output | Requirement | [XSS Attacks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-xss) |
+| Add restrictions within web APIs to account for untrusted input sent to it | Requirement | [API Best Practices - Input Validation](../Coding%20Practice/API-Best-Practices.md#input-validation) |
 | Set the Content-Security Policy to the proper values to restrict content usage | Requirement | [HTTP Headers - CSP](../Coding%20Practice/HTTP-Header-Security.md#content-security-policy-csp) |
 | Database calls must use paramaterized queries, where applicable | Requirement | [SQL Injection](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-sql-injection) |
 | Any service that accepts network addresses (FQDNs, IP addresses, hostnames) with the intention of initiating a connection to it should ensure proper validation | Requirement | [Server-Side Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#server-side-request-forgery-ssrf) |
 | Arbitrary file uploads must be properly validated upon upload | Requirement | [Arbitrary File Uploads](../Coding%20Practice/Preventing-Common-Web-Attacks.md#arbitrary-file-uploads) |
 | Applications that use untrusted input for site redirection (HTTP 30x) destinations must protect against open-redirects | Requirement | N/A (Coming Soon) |
+| Prevent content-sniffing by browsers | Requirement | [HTTP Headers - X-Content-Type-Options](../Coding%20Practice/HTTP-Header-Security.md#notes-on-apis) |
+| Implement request integrity | Recommendation | [API Best Practices - Request Integrity](../Coding%20Practice/API-Best-Practices.md#request-integrity) |
 #### Network-Accessible Applications
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
@@ -52,6 +55,12 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Refrain from using object deserialization from untrusted sources | Recommendation | N/A |
 ### Secrets Management
 
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Ensure no plaintext secrets (passwords, API tokens, etc) are included within any code | Requirement | [Credential Leaks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#credential-leaks) |
+| Any credentials needed for the application should be independently generated for the application, where applicable | Requirement | N/A |
+| Secrets needed to be statically stored for application deployment must use secure storage methods | Requirement | [Credential Leaks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#credential-leaks) |
+| For web applications, make sure the Referrer-Policy header is set to prevent secret data leakage | Requirement | [HTTP Headers - Referrer-Policy](../Coding%20Practice/HTTP-Header-Security.md#referrer-policy) |
 ### Encryption
 
 ### Logging
