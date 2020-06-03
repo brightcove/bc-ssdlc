@@ -95,6 +95,6 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure all data points that are collected and persistently stored - especially PII - include a method for automated or on-demand removal | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
+| Ensure all data points that are collected and persistently stored - especially PII - include a method for automated or ah-hoc removal | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
 | Make sure to set a static expiration date for all data points of a given set | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
 | Expiration dates set for data points must be set only as long as the data's usable lifespan to the business | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
