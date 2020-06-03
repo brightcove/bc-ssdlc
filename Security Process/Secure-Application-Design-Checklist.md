@@ -11,9 +11,10 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure all API endpoints that serve non-public data utilize BC tokens and Cathy for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) |
+| Ensure all API endpoints that serve non-public data utilize BC tokens and Cathy for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) / [Cross-Site Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-cross-site-request-forgery) |
 | If RBAC is being implemented, ensure sensitive endpoints are only accessible by the roles that require it | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) |
 | Authentication tokens must have a static expiration date that's enforced on the backend network | Requirement | [API Best Practices - Replay Attacks](../Coding%20Practice/API-Best-Practices.md#replay-attacks) / [AuthZ and AuthN Guidelines - Limited Token Lifetimes](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limited-token-lifetimes) |
+| Ensure sensitive API actions can't be performed via click-jacking | Requirement | [Click-Jacking](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-clickjacking) |
 | Limit OAuth2 scopes in line with the Principle of Least Privilege | Recommendation | [AuthZ and AuthN Guidelines - Limit OAuth2 Scope](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limit-oauth2-scope-by-the-principle-of-least-privilege) |
 | Validate redirect URIs used with OAuth2 quthentication requests | Recommendation | [AuthZ and AuthN Guidelines - Validating OAuth2 Redirect URIs](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#validating-oauth2-redirect-uris) |
 | Use and validate the state parameter with OAuth2 quthentication requests | Recommendation | [AuthZ and AuthN Guidelines - Validating the OAuth2 State Parameter](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#validating-the-oauth2-state-parameter) |
@@ -31,9 +32,24 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure all incoming network requests for non-public data are authenticated and authorized before being processed | Requirement |  |
+| Ensure all incoming network requests for non-public data or sensitive actions are authenticated and authorized before being processed | Requirement | N/A |
 ### Input Validation/Output Encoding
+#### Web Pages & APIs
 
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Ensure any untrusted input is properly encoded before or upon output | Requirement | [XSS Attacks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-xss) |
+| Set the Content-Security Policy to the proper values to restrict content usage | Requirement | [HTTP Headers - CSP](../Coding%20Practice/HTTP-Header-Security.md#content-security-policy-csp) |
+| Database calls must use paramaterized queries, where applicable | Requirement | [SQL Injection](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-sql-injection) |
+| Any service that accepts network addresses (FQDNs, IP addresses, hostnames) with the intention of initiating a connection to it should ensure proper validation | Requirement | [Server-Side Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#server-side-request-forgery-ssrf) |
+| Arbitrary file uploads must be properly validated upon upload | Requirement | [Arbitrary File Uploads](../Coding%20Practice/Preventing-Common-Web-Attacks.md#arbitrary-file-uploads) |
+| Applications that use untrusted input for site redirection (HTTP 30x) destinations must protect against open-redirects | Requirement | N/A (Coming Soon) |
+#### Network-Accessible Applications
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| When using memory-unsafe languages, ensure untrusted output isn't used for declaring buffer size, and that buffer size is appropriate for the incoming data the buffer set to hold | Requirement | N/A |
+| Refrain from using object deserialization from untrusted sources | Recommendation | N/A |
 ### Secrets Management
 
 ### Encryption
