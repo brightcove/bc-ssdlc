@@ -7,7 +7,7 @@ The **Secure Application Design Checklist** is a list of requirements and sugges
 The checklist is based on the list of security requirements outlined in the [Security Requirements](./Security-Requirements.md) document.
 ## Checklist
 ### Authentication and Authorization
-#### Web APIs
+#### Web Pages & APIs
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
@@ -46,6 +46,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Arbitrary file uploads must be properly validated upon upload | Requirement | [Arbitrary File Uploads](../Coding%20Practice/Preventing-Common-Web-Attacks.md#arbitrary-file-uploads) |
 | Applications that use untrusted input for site redirection (HTTP 30x) destinations must protect against open-redirects | Requirement | N/A (Coming Soon) |
 | Prevent content-sniffing by browsers | Requirement | [HTTP Headers - X-Content-Type-Options](../Coding%20Practice/HTTP-Header-Security.md#notes-on-apis) |
+| Take into account the possibility of HTTP smuggling attacks when forwarding HTTP requests through multiple services | Requirement | [HTTP Request Smuggling](../Coding%20Practice/Preventing-Common-Web-Attacks.md#http-request-smuggling-aka-http-desync-attacks) |
 | Implement request integrity | Recommendation | [API Best Practices - Request Integrity](../Coding%20Practice/API-Best-Practices.md#request-integrity) |
 #### Network-Accessible Applications
 
@@ -62,5 +63,25 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Secrets needed to be statically stored for application deployment must use secure storage methods | Requirement | [Credential Leaks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#credential-leaks) |
 | For web applications, make sure the Referrer-Policy header is set to prevent secret data leakage | Requirement | [HTTP Headers - Referrer-Policy](../Coding%20Practice/HTTP-Header-Security.md#referrer-policy) |
 ### Encryption
+#### Web Pages & APIs
 
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Ensure TLS is used for all network communications, both internal and external | Requirement | N/A |
+| When configuring TLS, ensure secure ciphers are used | Requirement | See internal SSDLC document |
+| Use HTTP Strict-Transport Security (HSTS) for all HTTP requests | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
+| Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP endpoints before directing them to a TLS endpoint | Requirement | N/A |
+#### User Management
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Ensure passwords are hashed, not encrypted | Requirement | See internal SSDLC document |
+| Passwords must be salted when stored, before being hashed | Requirement | See internal SSDLC document | 
+| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | See internal SSDLC document |
+| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | See internal SSDLC document |
+#### Persistent Data Encryption
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Sensitive data must be encrypted-at-rest when stored persistently | Requirement | See internal SSDLC document |
 ### Logging
