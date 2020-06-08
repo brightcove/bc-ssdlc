@@ -7,7 +7,7 @@ general points like:
 - [Input validation](#input-validation)
 - [Request verification](#request-integrity)
 - [Replay attacks](#replay-attacks)
-- [General security practices relevant to, but not specific to APIs](#general)
+- [General security practices relevant to, but not specific to, APIs](#general)
 
 ### Recommendations
 #### Access Controls
