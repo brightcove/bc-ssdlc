@@ -3,6 +3,7 @@
 ## Overview
 
 This guideline covers how to prevent some common vulnerability classes that can be eradicated, such as:
+- [Open-Redirect](#open-redirect)
 - [Clickjacking](#preventing-clickjacking)
 - [HTTPS Downgrade (HTTP Security Header)](#all-the-cool-kids-use-http-security-headers)
 - [HTTP Request Smuggling](#http-request-smuggling-aka-http-desync-attacks)
@@ -16,6 +17,41 @@ This guideline covers how to prevent some common vulnerability classes that can 
 By following the guidelines in this document your application will be more robust against these vulnerability classes and provide a solid foundation for developers to develop secure features for the application.
 
 ## Recommendations
+### Open-Redirect
+###### Description
+
+Open-redirect vulnerabilities occur in web applications that use untrusted input for HTTP 30X location targets.
+###### Why We Care
+
+The attacker is able to use the vulnerable endpoint as a proxy for redirecting a victim to a malicious website - all using our applications and infrastructure. Allowing this to happen may lead to complaints from hosting providers, additions of Brightcove domains to security blacklists, and other adverse effects.
+###### Example of Issue
+
+A web application designed to redirect users to the home page after logging in accepts the destination URL as a GET variable, and doesn't perform any validation on it, allowing the attacker to redirect a victim to any URL.
+###### How to Fix?
+
+There are several methods that can be used to prevent this:
+* Tokenize the URL
+  * Instead of using the actual destination URL for the input, generate a unique token that identifies the URL indirectly. The token-to-URL relationship can be stored via a database record, and should be referenced when validating the redirect.
+  * Ex: https://open-redirect.example.com/?url_token=1234567890abcdefgh
+* Implement an intermediate jump page for all redirects; the page would clearly show the target URL, and include a long timeout (5s+) to allow the user enough time to visually validate the URL is the URL they expect and/or trust
+  * Ex: Google and Facebook regularly use this for URLs in their ads and posts, respectively.
+
+Regardless of the solution that's chosen, as a part of best practices for public url redirects, we should also validate that the final URL is an external URL; that includes no RFC-1918 IPs as well as no link-local IPs (169.254.0.0/16 range).
+
+One important note regarding black/whitelisting: while **whitelists** can be used to successfully remediate this issue if you know the FQDN(s) that the endpoint should accept. However, **blacklists** are easy to circumvent, and should not be used as a solution for this.
+###### Security Level
+
+This attack is typically classified as a low risk vulnerability, mainly because:
+1. It requires an external malicious component (such as a link to malware or a phishing website) to really be successful, from the attackers perspective
+2. It almost always requires the user to take an action (like clicking a link) to exploit this type of vulnerability, as opposed to attacks that can silently affect Brightcove and its users
+3. Almost all web browsers display a full URL for a link when it's hovered over by the user, which usually includes the malicious URL within it, increasing the chances of tipping off the user that something fishy is happening. 
+###### References
+
+https://cwe.mitre.org/data/definitions/601.html
+https://portswigger.net/kb/issues/00500100_open-redirection-reflected
+https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html
+
+ ---
 ### Preventing Clickjacking
 ###### Description
 
