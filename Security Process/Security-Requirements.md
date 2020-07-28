@@ -1,11 +1,11 @@
 # Application Security Requirements at Brightcove [Security Process]
 
-### What are Security Requirements?
+## What are Security Requirements?
 
 Applications have a range of requirements that are taken into consideration during the development process. For example, there may be considerations made to who needs to use an application, that will decide whether it is public facing or not. 
 
 Similar to this, there are a number of security-related requirements that should be considered during the development process.
-### How do I identify security requirements?
+## How do I identify security requirements?
 
 Security requirements are **any needs or requirements of an application that act or perform some sort of security control**. These requirements include concepts like authentication or role-based access controls (RBAC). Many of these requirements can be determined by following [secure design principles](../Coding%20Practice/Secure-Design-Principles.md).
 
@@ -23,7 +23,7 @@ An example of security requirements that an application can encounter:
   - Requirements for how and when to encrypt data at rest or in transit, as well as how long to keep the data stored.
 - Logging
   - Requirement for almost all applications to ensure non-repudiation of application actions.
-### Once I have these requirements, what do I do?
+## Once I have these requirements, what do I do?
 
 A failure or flaw in the implementation of a security-related requirement can lead to additional various vulnerabilities or, in some cases, require a re-architecting of the application. As such, care needs to be taken when implementing the identified requirements. 
 
