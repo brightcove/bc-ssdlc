@@ -3,7 +3,6 @@
 ## What is Considered a Testing Environment?
 
 A **testing environment** is any non-production application environment. This may be a local developer environment on an engineer's workstation, to dedicated resources that mirror production used for staging new released before being released to production.
-
 ## Best Practices
 
 When building, updating, or using a testing environment at Brightcove, it's important to consider several best practices:
