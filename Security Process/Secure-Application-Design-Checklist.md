@@ -1,4 +1,4 @@
-# WIP - Secure Application Design Checklist [Security Process]
+# Secure Application Design Checklist [Security Process]
 
 ## What is the Secure Application Design Checklist?
 
