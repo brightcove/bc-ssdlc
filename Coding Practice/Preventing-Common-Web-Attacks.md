@@ -9,6 +9,7 @@ This guideline covers how to prevent some common vulnerability classes that can 
 - [HTTP Request Smuggling](#http-request-smuggling-aka-http-desync-attacks)
 - [Cross-Site Scripting (XSS)](#preventing-xss)
 - [SQL Injection](#preventing-sql-injection)
+- [CSV Injection](#preventing-csv-injection)
 - [Cross-Site Request Forgery (CSRF)](#preventing-cross-site-request-forgery)
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 - [Arbitrary File Uploads](#arbitrary-file-uploads)
@@ -47,9 +48,9 @@ This attack is typically classified as a low risk vulnerability, mainly because:
 3. Almost all web browsers display a full URL for a link when it's hovered over by the user, which usually includes the malicious URL within it, increasing the chances of tipping off the user that something fishy is happening. 
 ###### References
 
-https://cwe.mitre.org/data/definitions/601.html
-https://portswigger.net/kb/issues/00500100_open-redirection-reflected
-https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html
+- https://cwe.mitre.org/data/definitions/601.html
+- https://portswigger.net/kb/issues/00500100_open-redirection-reflected
+- https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html
 
  ---
 ### Preventing Clickjacking
@@ -82,7 +83,7 @@ This attack is usually a pretty low risk because most application don’t have t
 However, in the some cases the risk can be high if there is a button such as “Make user admin” in the application.
 ###### References
 
-https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
+- https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet
 
  ---
 ### All the cool kids use HTTP Security Headers
@@ -108,7 +109,7 @@ Adding security headers is basic security hygiene and you can see that large com
 
 Mozilla has a great web security guideline reference here which includes a lot about security headers:
 
-https://infosec.mozilla.org/guidelines/web_security
+- https://infosec.mozilla.org/guidelines/web_security
 
 ---
 ### HTTP Request Smuggling (a.k.a. HTTP Desync Attacks)
@@ -150,13 +151,9 @@ HTTP Request Smuggling attacks typically introduce the same amount of risk as CS
 ###### References
 
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Transfer-Encoding
-
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Length
-
 - https://cwe.mitre.org/data/definitions/444.html
-
 - https://portswigger.net/web-security/request-smuggling
-
 - http://projects.webappsec.org/w/page/13246928/HTTP%20Request%20Smuggling
 
 ---
@@ -225,7 +222,6 @@ XSS vulnerabilities are very common, and constitute a Medium to High risk depend
 ###### References
 
 - https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
-
 - https://csp.withgoogle.com/
 
 ---
@@ -273,10 +269,43 @@ For example, a SQL injection in your auth provider would be a critical vulnerabi
 ###### References
 
 - https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet
-
 - https://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html (Example noSQL attacks)
 
 --- 
+### Preventing CSV Injection
+###### Description
+
+A CSV command injection vulnerability allows an attacker to run arbitrary commands and macros within a user's CSV parsing software, e.g. Microsoft Excel.
+
+The vulnerability works by injecting spreadsheet software functions into data points. The data points are then included as part of a generated CSV. The victim downloads the malicious CSV and opens it in theri environment, triggering the payload.
+###### Why We Care
+
+CSV injections put our users at risk by allowing arbitrary (though semi-sandboxed) code execution on whatever node opens the CSV file. Users should be able to trust that any files that are deliver to them are as safe as possible.
+###### Example of Issue
+
+The main example that's used for CSV injection is abuse of the `cmd` function.
+
+Say we have a web-app that allows researchers to deliver anonymous questionaires publicly. Users are able to answer the questions, and then the researchers are able to download the results in multiple formats, including CSV.
+
+If one of the takers of the questionaire enters a malformed answer of `=cmd|' /C notepad'!'A1'`, that will then become a payload that gets run once any user opens a report CSV containing that answer. Replace `notepad` with a command that exfiltrates a user's files to a third-party, or triggers malware to run, and it can lead to a huge risk for the user. 
+###### How to Fix?
+
+CSV injection can be fixed in a few ways, both of which involve any reserve characters that can be used to trigger spreadsheet software functions.
+
+Those characters are: `=`, `+`, `-`,`@`
+
+1. Remove the reserved characters completely from any output destined to be used within a CSV file
+2. If these reserve characters must be preserved for business cases, ensure that all of them are escaped by proceeding each character with a backslash character (`\`)
+###### Security Level
+
+CSV injections aren't the most common vulnerabilities due to their limited scope. However, if they are triggered, they typically lead LOW to HIGH severities, depending on the difficulty of exploitation and number of affected users.
+###### References
+
+- https://owasp.org/www-community/attacks/CSV_Injection#:~:text=CSV%20Injection%2C%20also%20known%20as,the%20software%20as%20a%20formula.
+- https://medium.com/@ismailtasdelen/csv-injection-payload-list-e8e1deca6da5
+- https://www.whiteoaksecurity.com/2020-4-23-csv-injection-whats-the-risk/
+
+---
 ### Preventing Cross-Site Request Forgery
 ###### Description
 
