@@ -64,9 +64,9 @@ While there are several algorithms and techniques to chose from, some of which m
 
 This table works by saving a record for each column change made within a data store. Again using our example from above, an audit record for the HTML template may look something like:
 
-audit_record_id | table | column | pri_key | changed | changed_by | originally_created | originally_created_by | original_val | last_val | new_val
---------------- | ----- | ------ | ------- | ----------- | ---------- | ------------ | -------
-1 | html_templates | template_html | 254 | 2020-01-01 12:05:46 | jsmith | 2015-03-04 09:33:02 | cthompson | <INITIAL_HTML> | <OLD_HTML> | <NEW_HTML>
+| audit_record_id | table | column | pri_key | changed | changed_by | originally_created | originally_created_by | original_val | last_val | new_val |
+| --------------- | ----- | ------ | ------- | ------- | ---------- | ------------------ | --------------------- | ------------ | -------- | ------- |
+| 1 | html_templates | template_html | 254 | 2020-01-01 12:05:46 | jsmith | 2015-03-04 09:33:02 | cthompson | `<INITIAL_HTML>` | `<OLD_HTML>` | `<NEW_HTML>` |
 
 A few points to keep in mind for this table:
 
