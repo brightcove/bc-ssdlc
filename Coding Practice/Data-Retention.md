@@ -87,7 +87,7 @@ Additionally, you should also mirror the storage requirements of the original da
 
 The risk associated with not auditing data can range from not being a problem at all if the data is inconsequential, all the way up to HIGH in the case of a severe security breach.
 
-###### Additional Notes
+#### Additional Notes
 
 One of the downsides of data auditing, and likely one of the reasons a lot of companies/software engineers don't implement it into their applications, is that:
 
@@ -95,7 +95,7 @@ One of the downsides of data auditing, and likely one of the reasons a lot of co
   * Edge cases tend to come up, both with data input and data output
 * It adds a non-trivial amount of extra cost to the application
   * Because data auditing, by design, tends to take up a fair amount of storage, some companies forgo it to save on costs
-###### References
+#### References
 
 - https://dba.stackexchange.com/questions/114580/best-way-to-design-a-database-and-table-to-keep-records-of-changes
 - https://www.codeproject.com/Articles/105768/Audit-Trail-Tracing-Data-Changes-in-Database
