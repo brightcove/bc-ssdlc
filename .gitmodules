@@ -1,3 +1,0 @@
-[submodule "Tools and Automation/vault-secret-fetcher"]
-	path = Tools and Automation/vault-secret-fetcher
-	url = https://github.com/Unity-Technologies/vault-secret-fetcher
