@@ -188,7 +188,7 @@ An example of a persistent XSS attack would occur when arbitrary data coming fro
 E.g.: a custom CMS application was designed for a blog, but any HTML entered as part of a blog post is unsanitized and gets executed by the victim's browser.
 ###### How to Fix?
 
-XSS prevention is a huge topic but the main takeaways are as follows:
+XSS prevention is a huge topic. But the main takeaways are as follows:
 
 - Choose a front-end framework that support output encoding by default
 - Sanitize all dynamic/user-supplied data - whether from a dynamic GET variable or a DBMS - before output to a web page
@@ -201,13 +201,37 @@ The following front-end frameworks are good choices that will make it harder to 
 - https://angular.io/guide/security#xss
 - https://reactjs.org/docs/introducing-jsx.html#jsx-prevents-injection-attacks
 
-There are more frameworks that have good default XSS prevention, but these two that are in use already at Brightcove, and are supported and used by big companies such as Google and Facebook.
+There are more frameworks that have good default XSS prevention, but these two that are in use already at Brightcove, and are supported and used by larger companies such as Google and Facebook.
 
 Secondly, make sure that your application sanitizes any dynamic data it utilizes before outputting it to a web page, and optionally, when it's received by the user. This needs to be done on the server for it to be effective. Data can come from many sources including (but not limited to) direct input by a user or data coming from another application.
 
 For example, if you expect a phone number to be entered, make sure that your program validates that only expected data such as numbers, dashes and maybe a + for country code is accepted by the application. Additionally, ensure that phone number is encoded and sanitized before being included as a field in a web page. 
 
-There are many open-source, or otherwise free, libraries that can help with this: Joi for NodeJS, Ruby on Rails have Active Record Validations, and so on.
+If you aren't using a framework for sanitization - e.g. just vanilla JS or Node.js, etc - then it's recommended to first try using a commonly-used sanitization library/plugin, if one is available. There are many open-source, or otherwise free, libraries that can help with this: Joi for NodeJS, Ruby on Rails have Active Record Validations, and so on.
+
+If not, and you need to perform your own sanitization, ensure that you are taking the following into account:
+
+- Escape all untrusted input by default
+  - For instances where you actually *do* require HTML to be included, carve out exceptions for each instance (e.g. output_html(raw_input, allow_untrusted=True) with allow_untrusted set to False by default)
+- At a minimum, he main characters that you want to escape are:
+  - `& --> &amp;`
+  - `< --> &lt;`
+  - `> --> &gt;`
+  - `" --> &quot;`
+  - `' --> &#x27;`
+  - Note that if you are using untrusted data in other areas listed below **other than HTML elements**, then there are even more characters that must be escaped
+    - Contact Security Engineering for assistance, or reference the OWASP XSS Prevention Cheat Sheet listed in the references below
+- Make sure that you are sanitizing untrusted data when it's being placed into:
+  - HTML elements (e.g. `<div>`, `<p>`)
+  - HTML attributes (e.g. `div class="<UNTRUSTED_DATA>">`)
+  - JavaScript data values (e.g. quotes string, quoted variable values)
+  - CSS values (yes, you can actually execute JavaScript within certain CSS tags)
+  - URL parameters for links
+- Make sure you aren't placing untrusted input into JavaScript functions that still execute untrusted data _even if it's been encoded already_ (yes, these exist too)
+  - One example of this is the `setInterval()` function
+  - If you plan on using untrusted data within built-in JS functions, contact Security Engineering for assistance, or reference the OWASP XSS Prevention Cheat Sheet listed in the references below
+  
+Given the above requirements, it's **_highly recommended_** to use one of the first two options instead.
 
 Finally, we can implement a safeguard mechanism against XSS issues that all modern browsers support. Content Security Policy is effective in limiting the impact of XSS vulnerabilities should they occur in your application, even after you encode output data and sanitize input.
 
