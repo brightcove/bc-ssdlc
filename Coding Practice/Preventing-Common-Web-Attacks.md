@@ -207,7 +207,7 @@ Secondly, make sure that your application sanitizes any dynamic data it utilizes
 
 For example, if you expect a phone number to be entered, make sure that your program validates that only expected data such as numbers, dashes and maybe a + for country code is accepted by the application. Additionally, ensure that phone number is encoded and sanitized before being included as a field in a web page. 
 
-If you aren't using a framework for sanitization - e.g. just vanilla JS or Node.js, etc - then it's recommended to first try using a commonly-used sanitization library/plugin, if one is available. There are many open-source, or otherwise free, libraries that can help with this: Joi for NodeJS, Ruby on Rails have Active Record Validations, and so on.
+If you aren't using a framework for sanitization - e.g. just vanilla JS or Node.js, etc - then it's recommended to first try using a commonly-used sanitization library/plugin, if one is available. There are many open-source, or otherwise free, libraries that can help with this: [Joi](https://github.com/sideway/joi) or [DOMPurify](https://github.com/cure53/DOMPurify) for NodeJS, [Bleach by Mozilla](https://github.com/mozilla/bleach) for Python, Ruby on Rails have Active Record Validations, and so on.
 
 If not, and you need to perform your own sanitization, ensure that you are taking the following into account:
 
