@@ -16,6 +16,26 @@ These guidelines will cover general points like:
 
 **Authorization** is the process of ensuring a user can only access resources they are supposed to, usually based on some role or Risk Rating that is defined according to business logic.
 
+## User Management
+Even before authenticating and authorizing users comes the problem of user management. Bots, credential stuffing, compromised accounts...all of it combined can be tough to manage securely. Below are several recommendations on how to help combat these issues.
+
+### Account Verification
+Almost every application that allows public account creation will need to defend against the creation of non-human accounts, a.k.a. bot accounts. These accounts can be used for a variety of purposes: farming discount codes, hosting illegal content, getting around limits, etc.
+
+To better improve verification of accounts, you can:
+
+1. Require a manual action to enable the account
+  1. This is typiaclly done via a tokenized URL sent to the email associated with the account. But you can also utilize SMS, or even snail mail as well
+2. Implement a robust internally-available method for blocking specific emails/phone numbers/whatever is being used as a canonical user identifier
+  1. For example, a security or operations engineer can use a CLI tool to update a WAF that blocks any signups from `*@fakeemail.ru`
+3. Add machine learning models to help detect fake accounts during or after creation
+  1. An in-house model can be built for this, or there are commercial services available
+
+### Credential Stuffing/Compromised Accounts
+Credential stuffing is when an attacker uses previously-compromised credentials to log into an account on a separate service that uses those same credentials. Typically the end goal of this is the same as creating bot accounts. However, since these are typcally associated with actual humans (or were at one time) they are better at fooling machine learning models and other programmatic defenses.
+
+The best way to help prevent account compromise via credential stuffing is to add multi-factor authentication as an option for accounts (as described below) and urge your user's to take advantage of it. The next best way is to compare a user's credentials when they login to an internal database of known compromised credentials. Lsts of compromised credentals can be found on various sites across the web. However, be aware that storing these lists comes with an additional responsbility to keep them safely guarded from attackers.
+
 ## Authentication Guidelines
 The US NIST maintains a very detailed white paper on digital authentication - [NIST-800 63](https://pages.nist.gov/800-63-3/sp800-63b.html) - that is consistently updated as authentication requirements in technology change. 
 
