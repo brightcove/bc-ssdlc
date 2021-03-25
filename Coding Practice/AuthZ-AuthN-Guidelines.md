@@ -5,7 +5,7 @@
 This document provides guidelines for how to implement authentication and authorization in Brightcove applications.
 
 These guidelines will cover general points like:
-- [Passwords and Other Forms of Authentiion](#authentication-guidelines)
+- [Passwords and Other Forms of Authentication](#authentication-guidelines)
 - [Require Multi-Factor Authentication for Sensitive Applications](#require-multi-factor-authentication-for-sensitive-applications)
 - [Limit OAuth2 Scope by the Principle of Least Privilege](#limit-oauth2-scope-by-the-principle-of-least-privilege)
 - [Limited Token Lifetimes](#limited-token-lifetimes)
