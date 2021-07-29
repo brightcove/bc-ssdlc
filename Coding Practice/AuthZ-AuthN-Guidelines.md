@@ -11,6 +11,7 @@ These guidelines will cover general points like:
 - [Limited Token Lifetimes](#limited-token-lifetimes)
 - [Validating OAuth2 Redirect URIs](#validating-oauth2-redirect-uris)
 - [Validating the OAuth2 State Parameter](#validating-the-oauth2-state-parameter)
+- [DNS Validation](#dns-validation)
 
 **Authentication** is the process of verifying the user’s identity typically through an initial login and subsequently by verifying a unique secret identifier on each HTTP request made by the user’s browser.
 
@@ -25,7 +26,7 @@ Almost every application that allows public account creation will need to defend
 To better improve verification of accounts, you can:
 
 1. Require a manual action to enable the account
-    1. This is typiaclly done via a tokenized URL sent to the email associated with the account. But you can also utilize SMS, or even snail mail as well
+    1. This is typically done via a tokenized URL sent to the email associated with the account. But you can also utilize SMS, or even snail mail as well
 2. Implement a robust internally-available method for blocking specific emails/phone numbers/whatever is being used as a canonical user identifier
     1. For example, a security or operations engineer can use a CLI tool to update a WAF that blocks any signups from `*@fakeemail.ru`
 3. Add machine learning models to help detect fake accounts during or after creation
@@ -142,3 +143,42 @@ Low
 ###### References
 
 - https://tools.ietf.org/html/rfc6819#section-3.6
+
+## DNS Validation
+###### Description
+
+For some features and functions, you may need to allow external users to utilize a domain name that they own and manage. One of the biggest challenges that comes with that is actually verifying that the user owns the given domain name.
+###### Why We Care
+
+Because a large part of web security is domain-based, allowing external actors to use another user's domain can lead to many consequences. At the least, they may lock out valid users. At worst, they may be able to steal credentials using an XSS attack.
+###### How to Fix?
+
+To properly validate domain name ownership, we have a few options:
+
+NOTE: all of these methods will require you to generate a cryptographically-secure nonce
+
+1. Root Directory File
+   1. Provide the nonce via a secure environment, such as a TLS-protected management dashboard or encrypted email.
+   2. Instruct the user to create a plaintext file in the root directory of the given FQDN that includes the nonce
+     1. The filename can be anything, such as `validation.txt`
+   3. Once the user has everything complete, perform a validation using trusted DNS servers to verify the presence and congruency of the nonce at the given URL
+2. META HTML Tag
+   1. Provide the nonce via a secure environment, such as a TLS-protected management dashboard or encrypted email.
+   2. Instruct the user to add a `<meta>` HTML tag to the HTML index that includes the nonce
+   3. Use an HTML library to parse and validate the nonce
+3. DNS TXT Record
+   1. Provide the nonce via a secure environment, such as a TLS-protected management dashboard or encrypted email.
+   2. Instruct the user to create a TXT record that has the nonce as a value under the base domain entry
+      1. E.g. to validate `this.is.a.valid.subdomain.google.com`, ensure there's a TXT record with the nonce for `google.com`
+   3. Validate the the TXT record is present and the nonce is correct
+4. Use email validation
+   1. Allow the user to select from a list of common, admin-related emails, such as:
+      1. `admin@example.com`
+      2. `hostmaster@brightcove.com`
+      4. `webmaster@brightcove.com`
+      4. `security@brightcove.com`
+   2. Alternatively, you can query the WHOIS record for the domain and use the "Admin Email" or "Tech Email" value
+   
+###### Risk Rating
+
+Medium
