@@ -415,13 +415,12 @@ GET /video?url=http://admin.internal.company.com/secret-data
 ###### How to Fix?
 
 SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms. Specific instructions on fixing this will vary between languages, but in general:
-- Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
-- Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
 - Whitelist URLs, if possible
   - Don't bother trying to blacklist; there's too many protocols and URL schemes to account for for this to be effective
-- If it's not possible to whitelist certain URLs, ensure that all HTTP redirects (HTTP 30x) are followed until a non-30x response is returned
-  - This is to protect against URL-shortener services that don't properly blacklist RFC-1918 IPs from the long URLs
-  - Ensure that you also limit the number of 30x redirects in order to prevent a DoS situation (100 is typically a good number)
+- Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
+- Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
+- Ensure that HTTP redirects (HTTP 30x) are **NOT** followed
+  - This is to protect against an attacker utilizing a web server (or abusing a link-shortener service) to perform an HTTP redirect to a private IP (e.g. `Location: http://169.254.169.254/metadata/v1/user-data`) 
 - Limit the HTTP verbs/methods that can be used with your API
   - Ex: if your API just serves up static data read by other services, allow GET requests and generate an error for all others
 - Use authentication for internal services whenever possible
