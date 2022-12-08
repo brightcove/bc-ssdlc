@@ -14,6 +14,7 @@ This guideline covers how to prevent some common vulnerability classes that can 
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 - [Arbitrary File Uploads](#arbitrary-file-uploads)
 - [Credential leaks](#credential-leaks)
+- [Web Cache Poisoning](#web-cache-poisoning)
 
 By following the guidelines in this document your application will be more robust against these vulnerability classes and provide a solid foundation for developers to develop secure features for the application.
 
@@ -504,3 +505,31 @@ The Security Engineering team does utilize a tool for monitoring of secrets in s
 
 Leaking credentials can be critical as they often grant a high level of access to Brightcove systems (especially third-party SaaS services) and can lead to compromise of data and systems.
 
+ ---
+### Web Cache Poisoning
+###### Description
+
+Caching is an important part of web application and infrastructure performance and is widely used. Unfortunately, if not configured correctly, it can lead to an attacker sending a malicious request to a cached service, crafted in a way that causes the cache to include it for responses to **all subsequent requests**, i.e. all users would now have the malicious ("poisoned") response returned from the server.
+###### Why We Care
+
+The ability for an attacker to inject malicious code and present it to all users of a website is a very high severity issue that presents a large risk and an extremely wide-ranging impact - both recipes for disaster from a security perspective.
+###### Example of Issue
+
+Specific use cases where this is typically used is for magnifying the impact of an XSS vulnerability, phishing/scam purposes, password reset hijacking, etc.
+###### How to Fix?
+
+Preventing web cache poisoning attacks boils down to caching data correctly. This often occurs with reverse proxies, where the proxies don't properly parse incoming headers correctly, most often the `Host`, `X-Forwarded-For`, and other network-related headers.
+
+When setting up caching at the network level, ensure that:
+
+1. The keys chosen to define clients are _truly_ client-specific (e.g. make sure you aren't returning a dynamic web page to all clients)
+2. The networking and application layers for the caching system propely manager headers
+   1. For example, if a client sends a custom X-Forwarded-For header, the edge firewall/cache should always rewrite it with (or append to it) the true source IP of the request.
+###### Security Level
+
+As mentioned above, cache poisoning attacks are typically very high severity as they have the ability to affect all or a majority of users to an endpoint.
+###### References
+
+- https://owasp.org/www-community/attacks/Cache_Poisoning
+- https://portswigger.net/web-security/web-cache-poisoning
+- https://0xn3va.gitbook.io/cheat-sheets/web-application/web-cache-poisoning
