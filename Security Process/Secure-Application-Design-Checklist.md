@@ -99,3 +99,24 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Ensure all PII-related data points that are collected and persistently stored include a method for automated or on-demand removal | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
 | Make sure to set a static expiration date for all data points of a given set | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
 | Expiration dates set for data points must be set only as long as the data's usable lifespan to the business | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
+### Security Tools
+
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Configure source code to be scanned by SAST platform | Requirement | [BC Internal - Tools - SAST](https://brightcove.atlassian.net/l/cp/2XqhbU0T) |
+| Integrate source code with dependency management application | Requirement | [BC Internal - Tools - Dependency Management](https://brightcove.atlassian.net/l/cp/F0WsAaG6) |
+### Vulnerability Scanning/Patch Management
+
+| Ensure application containers are being scanned by vulnerability management platform | Requirement | [BC Internal - Tools - Vulnerability Scanning/Management](https://brightcove.atlassian.net/l/cp/C0A77W9k) |
+| Confirm application containers are patched before being deployed to production environments | Requirement | [BC Internal - SSDLC - Patching Guide](https://brightcove.atlassian.net/l/cp/NimyhFn4) |
+### SCM Security
+
+| Ensure source code organizations and repos are only accessible by users who truly require access | Required | N/A |
+| Implement branch protections on production and main branches | Recommended | [Github Docs - Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) |
+| Refrain from checking in any secret or confidential data to source code repos | Requirement | [BC Internal - SSDLC - Securing Development Environments](https://brightcove.atlassian.net/l/cp/Xy5bLWRF) |
+| Require at least two reviews for PRs to be merged | Recommended | [Github Docs - PR Review Requirements](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#require-pull-request-reviews-before-merging) |
+
+### CI/CD Security
+
+| Only use CI/CD platforms approved for use by Brightcove | Required | N/A |
+| Refrain from using hard-code secrets for deployments | Required | [BC Internal - SSDLC - Using Application Secrets Securely](https://brightcove.atlassian.net/l/cp/6Gp9fWaM)
