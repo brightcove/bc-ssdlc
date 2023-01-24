@@ -68,28 +68,28 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure TLS is used for all network communications, both internal and external | Requirement | [BC Internal - Guide to TLS - Should I Use TLS?](https://confluence.brightcove.com/display/IS/Guide+to+TLS#GuidetoTLS-ShouldIUseTLSForMyApplication'sNetworkCommunications?) |
-| When configuring TLS, ensure secure ciphers are used | Requirement | [BC Internal - Guide to TLS - Protocol and Ciphers](https://confluence.brightcove.com/display/IS/Guide+to+TLS#GuidetoTLS-ProtocolsandCiphers) |
+| Ensure TLS is used for all network communications, both internal and external | Requirement | [BC Internal - Guide to TLS - Should I Use TLS?](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ShouldIUseTLSForMyApplication'sNetworkCommunications%3F) |
+| When configuring TLS, ensure secure ciphers are used | Requirement | [BC Internal - Guide to TLS - Protocol and Ciphers](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ProtocolsandCiphers) |
 | Use HTTP Strict-Transport Security (HSTS) for all HTTP requests | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
 | Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP endpoints before directing them to a TLS endpoint | Requirement | N/A |
 #### User Management
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
-| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) | 
-| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
-| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
+| Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-StoringofPasswords) |
+| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) | 
+| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Algorithms](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-argon2vsbcryptvsscryptvsPBKDF2) |
+| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Salting Procedures](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-SaltingProcedures) |
 #### Persistent Data Encryption
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Confirm sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography](https://confluence.brightcove.com/display/IS/Brightcove+Secure+Software+Development+Lifecycle+%28SSDLC%29+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-Cryptography) |
+| Confirm sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rests](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
 ### Logging
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | N/A |  
+| Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | [BC Internal - SSDLC - Logging](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1887208183/Logging+At+Brightcove#Logging-Setup) |  
 | Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Requirement | N/A |
 | Ensure logs are retained for at least 30 days | Requirement | N/A |
 ### Data Retention
