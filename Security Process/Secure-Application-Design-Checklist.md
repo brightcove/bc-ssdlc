@@ -5,6 +5,7 @@
 The **Secure Application Design Checklist** is a list of requirements and suggestions that a product manager, architect, or other development personnel can run through to make sure they've fully covered all security requirements during their SDLC process.
 
 The checklist is based on the list of security requirements outlined in the [Security Requirements](./Security-Requirements.md) document.
+
 ## Checklist
 ### Authentication and Authorization
 #### Web Pages & APIs
@@ -44,7 +45,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Database calls must use paramaterized queries, where applicable | Requirement | [SQL Injection](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-sql-injection) |
 | Any service that accepts network addresses (FQDNs, IP addresses, hostnames) with the intention of initiating a connection to it should ensure proper validation | Requirement | [Server-Side Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#server-side-request-forgery-ssrf) |
 | Arbitrary file uploads must be properly validated upon upload | Requirement | [Arbitrary File Uploads](../Coding%20Practice/Preventing-Common-Web-Attacks.md#arbitrary-file-uploads) |
-| Applications that use untrusted input for site redirection (HTTP 30x) destinations must protect against open-redirects | Requirement | N/A (Coming Soon) |
+| Applications that use untrusted input for site redirection (HTTP 30x) destinations must protect against open-redirects | Requirement | [Open Redirect](https://github.com/brightcove/bc-ssdlc/blob/bc-master/Coding%20Practice/Preventing-Common-Web-Attacks.md#open-redirect) |
 | Prevent content-sniffing by browsers | Requirement | [HTTP Headers - X-Content-Type-Options](../Coding%20Practice/HTTP-Header-Security.md#notes-on-apis) |
 | Take into account the possibility of HTTP smuggling attacks when forwarding HTTP requests through multiple services | Requirement | [HTTP Request Smuggling](../Coding%20Practice/Preventing-Common-Web-Attacks.md#http-request-smuggling-aka-http-desync-attacks) |
 | Implement request integrity | Recommendation | [API Best Practices - Request Integrity](../Coding%20Practice/API-Best-Practices.md#request-integrity) |
