@@ -416,9 +416,12 @@ GET /video?url=http://admin.internal.company.com/secret-data
 ###### How to Fix?
 
 SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms. Specific instructions on fixing this will vary between languages, but in general:
+- SSRF validation should be performed at the time **the data is fetched**, not when the URL is sent to the API/stored persistently
+  - For example, a feature that downloads a picture from a user-supplied URL, processes and uploads it to Brightcove storage, and then accesses that file any time it's needed (say as a video preview image) would only have to validate it once during processing. If instead that feature dynamically fetches that same picture from the user-supplied URL **every time a video is loaded**, then validation would need to be performed during every dynamic fetch as the URL can update at any time
 - Whitelist URLs, if possible
   - Don't bother trying to blacklist; there's too many protocols and URL schemes to account for for this to be effective
 - Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
+  - Resolve all FQDNs to IP addresses before performing this verification
 - Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
 - Ensure that HTTP redirects (HTTP 30x) are **NOT** followed
   - This is to protect against an attacker utilizing a web server (or abusing a link-shortener service) to perform an HTTP redirect to a private IP (e.g. `Location: http://169.254.169.254/metadata/v1/user-data`) 
