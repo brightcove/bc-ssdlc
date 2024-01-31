@@ -5,7 +5,9 @@
 This document provides guidelines for how to implement authentication and authorization in Brightcove applications.
 
 These guidelines will cover general points like:
+
 - [Passwords and Other Forms of Authentication](#authentication-guidelines)
+- [JWT Best Practices](#jwt-best-practices)
 - [Require Multi-Factor Authentication for Sensitive Applications](#require-multi-factor-authentication-for-sensitive-applications)
 - [Limit OAuth2 Scope by the Principle of Least Privilege](#limit-oauth2-scope-by-the-principle-of-least-privilege)
 - [Limited Token Lifetimes](#limited-token-lifetimes)
@@ -41,6 +43,60 @@ The best way to help prevent account compromise via credential stuffing is to ad
 The US NIST maintains a very detailed white paper on digital authentication - [NIST-800 63](https://pages.nist.gov/800-63-3/sp800-63b.html) - that is consistently updated as authentication requirements in technology change. 
 
 The guidelines for authentication mechanisms in particular (e.g. passwords, OTP devices, etc) - including recommended password configurations and minimum requirements - can be found in [Section 5](https://pages.nist.gov/800-63-3/sp800-63b.html#sec5).
+
+## Authorization Guidelines
+### JWT Best Practices
+A popular data format commonly used for API authorization is [the JSON Web Token (JWT)](https://jwt.io/introduction), including for many services at Brightcove. At a high level, a JWT is a signed string of JSON that stipulates various "claims", such as who the user is (e.g. user ID), what permissions they may have, etc.
+
+Ae JWT will contain a header, payload, and signature. The header defines parts of the JWT itself (e.g. what algorithm it uses), the payload contains the data applications consume, and the signature is the cryptographic signature preserving the integrity of the token, typically by using a private key or secret.  These three artifacts are combined and then base64 encoded.
+
+#### Example JWT
+
+Header:
+
+```json
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+
+Payload:
+
+```json
+{
+  "iss": "magic-api",
+  "aud": "magic-api.example.com",
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022,
+  "exp": 1516249022
+}
+```
+
+Header, Payload, and Signature Base64-Encoded (no HMAC key):
+
+```text
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtYWdpYy1hcGkiLCJhdWQiOiJtYWdpYy1hcGkuZXhhbXBsZS5jb20iLCJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyNDkwMjJ9.ChBbNRnlxCqDt5lPJmm1_mcj1ot8OPVlcQG-nfBtCWw
+```
+
+#### JWT Security Guidelines
+
+* Always utilize a secret when generating a JWT, unless the use case doesn't require it
+  * Additionally, ensure that the signature is always validated server-side for every request
+  * Optimally, a cryptographically-secure key pair would be generated for this purpose, with the private key being used to sign the token and the public key being used to verify the token
+* The `exp` and `nbf` registered claims should always be used
+  * The time period for `exp` should be as short as possible
+* The `aud` claim should be used where possible, and should be restricted to only the services/API URIs that can utilize that token
+* JWTs MUST NOT contain sensitive data
+  * JWTs are meant to provide *integrity*, not *confidentiality*
+* Be aware of [cross-service relay attack vulnerabilities]() and how to prevent them
+
+For a list of suggested JWT algorithms to use, see the applicable section in [Brightcove's internal encryption standard](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Cryptographic+Standards+Systems+Protocols+Algorithms+Primitives+and+More#Algorithms.5).
+
+#### Additional Resources
+
+* [RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519)
 
 ## Recommendations
 ### Require Multi-Factor Authentication for Sensitive Applications
@@ -144,7 +200,7 @@ Low
 
 - https://tools.ietf.org/html/rfc6819#section-3.6
 
-## DNS Validation
+### DNS Validation
 ###### Description
 
 For some features and functions, you may need to allow external users to utilize a domain name that they own and manage. One of the biggest challenges that comes with that is actually verifying that the user owns the given domain name.
@@ -182,3 +238,30 @@ NOTE: all of these methods will require you to generate a cryptographically-secu
 ###### Risk Rating
 
 Medium
+
+### Account For Cross-Service Relay Attack Vulnerabilities
+###### Description
+
+Medium and Large enterprises that have multiple services being offered (maybe as part of a suite) tend to use the same JWT for all services. This isn't a bad practice at all, and is arguable even a best practice. But an issue can arise when services use the same claim for different purposes, and one of those purposes is security related (such as restricting content, tying to a product key, etc).
+
+In such a case, a user will generate a vald JWT for one service and - since it uses the same key/secret - can then be reused as a valid JWT in a second service. Since they share claims, they're both accepted as valid by both services. But one service will improperly handle it, leading to unintended imformation disclosure, broken authentication, IDORs, and various other security issues.
+###### Why We Care
+
+Being able to generate a valid JWT with a claim set to a value the resource associated with the JWT shouldn't have it set to (e.g. `user_level: basic` v.s. `user_level: admin`) breaks the integrity provided by the JWT, making it unusable for proper authorization.
+###### How to Fix?
+
+NOTE: only one solution listed below is needed to fully prevent the issue
+
+* Update services to utilize the `aud` JWT claim
+  * This claim denotes which principal (in most cases, an API/service URI) the JWT is valid for
+  * Example: `"aud": "video.brightcove.com"`
+* Utilize different keys/secrets for each service
+* Update services to all use the same logic with a shared claim
+
+###### Risk Rating
+
+High
+
+###### References
+
+* <https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3>
