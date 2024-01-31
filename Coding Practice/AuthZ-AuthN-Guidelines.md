@@ -90,7 +90,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtYWdpYy1hcGkiLCJhdWQiOiJtYWdpYy1
 * The `aud` claim should be used where possible, and should be restricted to only the services/API URIs that can utilize that token
 * JWTs MUST NOT contain sensitive data
   * JWTs are meant to provide *integrity*, not *confidentiality*
-* Be aware of [cross-service relay attack vulnerabilities]() and how to prevent them
+* Be aware of [cross-service relay attack vulnerabilities](#account-for-cross-service-relay-attack-vulnerabilities) and how to prevent them
 
 For a list of suggested JWT algorithms to use, see the applicable section in [Brightcove's internal encryption standard](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Cryptographic+Standards+Systems+Protocols+Algorithms+Primitives+and+More#Algorithms.5).
 
