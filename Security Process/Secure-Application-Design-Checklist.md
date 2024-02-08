@@ -1,3 +1,4 @@
+<!-- markdownlint-disable-file MD024 -->
 # Secure Application Design Checklist [Security Process]
 
 ## What is the Secure Application Design Checklist?
@@ -89,7 +90,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-StoringofPasswords) |
-| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) | 
+| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) |
 | Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Algorithms](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-argon2vsbcryptvsscryptvsPBKDF2) |
 | Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Salting Procedures](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-SaltingProcedures) |
 
@@ -112,7 +113,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Make sure to only use official, up-to-date official images | Requirement | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Use-minimal,-trusted-base-images) |
+| Make sure to only use official, up-to-date official images | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Use-minimal,-trusted-base-images) |
 | Run applications as service account users as opposed to the default `root` user | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Don%E2%80%99t-run-the-container-as-root) |
 | Only use `EXPOSE` with ports that are in use and need to be exposed outside of the container | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Only-expose-the-ports-you-need-when-using-the-EXPOSE-instruction) |
 | Do not include any secrets or sensitive data within a container | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Don%E2%80%99t-store-secrets-directly-in-Docker-files) |
@@ -176,4 +177,4 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Only use CI/CD platforms approved for use by Brightcove | Required | N/A |
-| Refrain from using hard-code secrets for deployments | Required | [BC Internal - SSDLC - Using Application Secrets Securely](https://brightcove.atlassian.net/l/cp/6Gp9fWaM)
+| Refrain from using hard-code secrets for deployments | Required | [BC Internal - SSDLC - Using Application Secrets Securely](https://brightcove.atlassian.net/l/cp/6Gp9fWaM) |
