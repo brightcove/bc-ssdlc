@@ -90,8 +90,7 @@ It is possible that a request could be modified in-transit between the original 
 
 ##### Why We Care
 
-Modified requests may cause state changing actions to the original requester’s data, or cause incorrect, modified, or 
-unexpected data to be served.
+Modified requests may cause state changing actions to the original requester’s data, or cause incorrect, modified, or unexpected data to be served.
 
 ##### Example of Issue
 
