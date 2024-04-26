@@ -430,6 +430,8 @@ SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the u
 - Use authentication for internal services whenever possible
   - This is especially important with databases, e.g. Redis, Kibana, etc
   - This practice falls in line with Zero-Trust Architecture, the primary security architecture framework employed by Brightcove Security Engineering
+
+For a list of payloads to code for, see [this document in PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md).
 ###### Security Level
 
 Depending on the case, SSRFs essentially allow an open proxy for outside attackers to run arbitrary network requests on an organization's internal network. Since this is typically where sensitive data is stored, and internal networks commonly have less safeguards than external network zones, this often presents a Medium to High risk.
