@@ -98,7 +98,8 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Confirm sensitive data is encrypted-at-rest when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
+| Confirm all data is encrypted-at-rest at the disk level when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
+| Confirm confidential data (e.g. a customer's API token to a third-party service) is actively encrypted before being stored within a database | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
 
 ### Infrastructure
 
