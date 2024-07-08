@@ -83,7 +83,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Ensure TLS is used for all network communications, both internal and external | Requirement | [BC Internal - Guide to TLS - Should I Use TLS?](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ShouldIUseTLSForMyApplication'sNetworkCommunications%3F) |
 | When configuring TLS, ensure secure ciphers are used | Requirement | [BC Internal - Guide to TLS - Protocol and Ciphers](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ProtocolsandCiphers) |
 | Use HTTP Strict-Transport Security (HSTS) for all HTTP requests | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
-| Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP endpoints before directing them to a TLS endpoint | Requirement | N/A |
+| Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP (i.e. non-TLS, non-encrypted) endpoints before directing them to a TLS endpoint | Requirement | N/A |
 
 #### User Management
 
