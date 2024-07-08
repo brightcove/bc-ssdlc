@@ -93,17 +93,17 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-StoringofPasswords) |
-| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) |
-| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Algorithms](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-argon2vsbcryptvsscryptvsPBKDF2) |
-| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Salting Procedures](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-SaltingProcedures) |
+| Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-StoringofPasswords) |
+| Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) |
+| Make sure a Brightcove-approved password hashing algorithm is used for storing passwords | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Algorithms](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-argon2vsbcryptvsscryptvsPBKDF2) |
+| Make sure a Brightcove-approved CSPRNG is used for generating password salts | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords - Salting Procedures](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-SaltingProcedures) |
 
 #### Persistent Data Encryption
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Confirm all data is encrypted-at-rest at the disk level when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
-| Confirm confidential data (e.g. a customer's API token to a third-party service) is actively encrypted before being stored within a database | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommended+Encryption+Standards+Algorithms+and+Primitives#RecommendedEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
+| Confirm all data is encrypted-at-rest at the disk level when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
+| Confirm confidential data (e.g. a customer's API token to a third-party service) is actively encrypted before being stored within a database | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
 
 ### Infrastructure
 
@@ -123,7 +123,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Only use `EXPOSE` with ports that are in use and need to be exposed outside of the container | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Only-expose-the-ports-you-need-when-using-the-EXPOSE-instruction) |
 | Do not include any secrets or sensitive data within a container | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Don%E2%80%99t-store-secrets-directly-in-Docker-files) |
 | Any static secrets in use by the container during runtime must be encrypted when used within the Kubernetes manifest in accordance with Brightcove cryptographic standards | Requirement | [BC Internal - SSDLC - Container Security](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905780/Brightcove+Secure+Software+Development+Lifecycle+SSDLC+Guide#BrightcoveSecureSoftwareDevelopmentLifecycle(SSDLC)Guide-ContainerSecurity) |
-| Review the Brightcove Docker Security Guide to ensure your container image is as secure as possible | Recommended | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide) |
+| Review the Brightcove Docker Security Guide to ensure your container image is as secure as possible | Recommendation | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide) |
 
 #### Kubernetes Security
 
@@ -132,9 +132,9 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Run the container as non-root | Required | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Implement-a-Seccomp-Policy) |
 | Disallow container privilege escalation | Required | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Disallow-Privilege-Escalation) |
 | Do not run the container in privileged mode | Required | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Refrain-From-Running-Container-as-Privileged) |
-| Implement a Seccomp policy | Recommended | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Implement-a-Seccomp-Policy) |
-| Implement kernel security defenses | Recommended | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Kernel-Security) |
-| Review the Brightcove Kubernetes Security Guide to ensure your container image is deployed as securely as possible | Recommended | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide) |
+| Implement a Seccomp policy | Recommendation | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Implement-a-Seccomp-Policy) |
+| Implement kernel security defenses | Recommendation | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Kernel-Security) |
+| Review the Brightcove Kubernetes Security Guide to ensure your container image is deployed as securely as possible | Recommendation | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide) |
 
 ### Logging
 
@@ -174,10 +174,10 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure source code organizations and repos are only accessible by users who truly require access | Required | N/A |
-| Implement branch protections on production and main branches | Recommended | [Github Docs - Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) |
+| Implement branch protections on production and main branches | Recommendation | [Github Docs - Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) |
 | Refrain from checking in any secret or confidential data to source code repos | Requirement | [BC Internal - SSDLC - Securing Development Environments](https://brightcove.atlassian.net/l/cp/Xy5bLWRF) |
-| Require at least two reviews for PRs to be merged | Recommended | [Github Docs - PR Review Requirements](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#require-pull-request-reviews-before-merging) |
-| Don't create repos in personal organizations. If this _is_ needed, ensure that it is set to `private` visibility upon creation | Recommended | [Github Docs - Repo Visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility) |
+| Require at least two reviews for PRs to be merged | Recommendation | [Github Docs - PR Review Requirements](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#require-pull-request-reviews-before-merging) |
+| Don't create repos in personal organizations. If this _is_ needed, ensure that it is set to `private` visibility upon creation | Recommendation | [Github Docs - Repo Visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility) |
 
 ### CI/CD Security
 
