@@ -15,7 +15,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure all API endpoints that serve non-public data utilize BC tokens and Cathy for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) / [Cross-Site Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-cross-site-request-forgery) |
+| Ensure all API endpoints that serve non-public data utilize BC tokens and Bifrost for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) / [Cross-Site Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-cross-site-request-forgery) |
 | If RBAC is being implemented, ensure sensitive endpoints are only accessible by the roles that require it | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) |
 | Authentication tokens must have a static expiration date that's enforced on the backend network | Requirement | [API Best Practices - Replay Attacks](../Coding%20Practice/API-Best-Practices.md#replay-attacks) / [AuthZ and AuthN Guidelines - Limited Token Lifetimes](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limited-token-lifetimes) |
 | Ensure sensitive API actions can't be performed via click-jacking | Requirement | [Click-Jacking](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-clickjacking) |
