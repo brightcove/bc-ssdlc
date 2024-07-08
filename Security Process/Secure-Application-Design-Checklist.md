@@ -174,10 +174,10 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure source code organizations and repos are only accessible by users who truly require access | Required | N/A |
-| Implement branch protections on production and main branches | Recommendation | [Github Docs - Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) |
 | Refrain from checking in any secret or confidential data to source code repos | Requirement | [BC Internal - SSDLC - Securing Development Environments](https://brightcove.atlassian.net/l/cp/Xy5bLWRF) |
+| Don't create repos in personal organizations. If this _is_ needed, ensure that it is set to `private` visibility upon creation | Requirement | [Github Docs - Repo Visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility) |
 | Require at least two reviews for PRs to be merged | Recommendation | [Github Docs - PR Review Requirements](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches#require-pull-request-reviews-before-merging) |
-| Don't create repos in personal organizations. If this _is_ needed, ensure that it is set to `private` visibility upon creation | Recommendation | [Github Docs - Repo Visibility](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility) |
+| Implement branch protections on production and main branches | Recommendation | [Github Docs - Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/about-protected-branches) |
 
 ### CI/CD Security
 
