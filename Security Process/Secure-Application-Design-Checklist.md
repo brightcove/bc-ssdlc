@@ -108,7 +108,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure Brightcove Cloud Security Standards are met when creating or updating any cloud infrastructure | Requirement | [BC Internal - Cloud Security Standards](https://brightcove.atlassian.net/wiki/spaces/IS/pages/14031749252/Cloud+Security+Standards) |
-| Cloud resources must be configured securely, meaning as little access as needed | Requirement | [BC Internal - Guide to Security in AWS](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905669/Guide+to+Security+in+AWS) |
+| Cloud resources must be configured following the Principle of Least Privilege | Requirement | [BC Internal - Guide to Security in AWS](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905669/Guide+to+Security+in+AWS) |
 
 #### Container Security
 
@@ -136,9 +136,11 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | [BC Internal - SSDLC - Logging](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1887208183/Logging+At+Brightcove#Logging-Setup) |  
-| Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Requirement | N/A |
+| Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | [BC Internal - SSDLC - Logging](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1887208183/Logging+At+Brightcove#Logging-Setup) |
+| For server applications, logs must be traceable to an IP and user/customer | Requirement | N/A |
+| Ensure that confidential data values are excluded or scrubbed before being written to logs | Requirement | N/A |
 | Ensure logs are retained for at least 30 days | Requirement | N/A |
+| Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Recommendation | N/A |
 
 ### Data Retention
 
