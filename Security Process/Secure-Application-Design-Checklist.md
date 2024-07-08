@@ -76,6 +76,10 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 ### Encryption
 
+| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| ------ | ------------------------------ | ------------------ |
+| Confirm application confirms to Brightcove Cryptography Standards | Requirement | [BC Internal - SSDLC - Cryptography Standards](https://brightcove.atlassian.net/l/cp/H1FFN4ik) |
+
 #### Web Pages & APIs
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
@@ -154,16 +158,16 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Configure source code to be scanned by SAST platform | Requirement | [BC Internal - Tools - SAST](https://brightcove.atlassian.net/wiki/x/GgCBWgM) |
-| Integrate source code with dependency management application | Requirement | [BC Internal - Tools - Dependency Management](https://brightcove.atlassian.net/wiki/x/GgCBWgM) |
+| Configure source code to be scanned by SAST platform | Requirement | [BC Internal - Tools - SAST](https://brightcove.atlassian.net/l/cp/YrLhrZn0) |
+| Integrate source code with dependency management application | Requirement | [BC Internal - Tools - Dependency Management](https://brightcove.atlassian.net/l/cp/C4aDRb4S) |
 
 ### Vulnerability Scanning/Patch Management
 
 | Action | Requirement or Recommendation? | BC SSDLC Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure application containers are being scanned by vulnerability management platform | Requirement | [BC Internal - Tools - Vulnerability Scanning/Management](https://brightcove.atlassian.net/l/cp/C0A77W9k) |
-| Confirm application containers are patched before being deployed to production environments | Requirement | [BC Internal - SSDLC - Patching Guide](https://brightcove.atlassian.net/l/cp/NimyhFn4) |
-| Ensure that patching standards are followed and a plan is in place to patch the application and its infrastructure on a regular basis | Requirement | [BC Internal - SSDLC - Patching Standard](https://brightcove.atlassian.net/wiki/spaces/IS/pages/14210891915/Patch+Management+Standard) |
+| Ensure application containers are being scanned by vulnerability management platform | Requirement | [BC Internal - Tools - Vulnerability Scanning/Management](https://brightcove.atlassian.net/l/cp/e43G1MRa) |
+| Confirm application containers are patched before being deployed to production environments | Requirement | [BC Internal - SSDLC - Patching Guide](https://brightcove.atlassian.net/l/cp/e43G1MRa) |
+| Ensure that patching standards are followed and a plan is in place to patch the application and its infrastructure on a regular basis | Requirement | [BC Internal - SSDLC - Patching Standard](https://brightcove.atlassian.net/l/cp/jeCF9JkC) |
 
 ### SCM Security
 
