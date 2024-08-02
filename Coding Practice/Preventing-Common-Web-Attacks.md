@@ -3,6 +3,7 @@
 ## Overview
 
 This guideline covers how to prevent some common vulnerability classes that can be eradicated, such as:
+
 - [Open-Redirect](#open-redirect)
 - [Clickjacking](#preventing-clickjacking)
 - [HTTPS Downgrade (HTTP Security Header)](#all-the-cool-kids-use-http-security-headers)
@@ -10,6 +11,7 @@ This guideline covers how to prevent some common vulnerability classes that can 
 - [Cross-Site Scripting (XSS)](#preventing-xss)
 - [SQL Injection](#preventing-sql-injection)
 - [CSV Injection](#preventing-csv-injection)
+- [Command Injection](#preventing-command-injection)
 - [Cross-Site Request Forgery (CSRF)](#preventing-cross-site-request-forgery)
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 - [Arbitrary File Uploads](#arbitrary-file-uploads)
@@ -329,6 +331,55 @@ CSV injections aren't the most common vulnerabilities due to their limited scope
 - https://owasp.org/www-community/attacks/CSV_Injection#:~:text=CSV%20Injection%2C%20also%20known%20as,the%20software%20as%20a%20formula.
 - https://medium.com/@ismailtasdelen/csv-injection-payload-list-e8e1deca6da5
 - https://www.whiteoaksecurity.com/2020-4-23-csv-injection-whats-the-risk/
+
+---
+### Preventing Command Injection
+###### Description
+
+A command injection vulnerability allows an attacker to run arbitrary commands on the host the service is running on, or hosts/services that are accessible by it.
+
+The vulnerability works by injecting OS commands into data fields that are parsed by the target software. The software doesn't properly sanitize the input data, and further downstream when the input data is used within a CLI command, the injected code is executed.
+###### Why We Care
+
+Command injections allow remote code execution (RCE) for the target service and its infrastructure. RCE is one of the more critical vulnerabilities that exists since it's essentially like providing a public command line to the world. If the service and host aren't properly locked down, then the results will be even worse, likely leading to a major breach.
+###### Example of Issue
+
+Johnny Injection is developing a new service that allows users to upload images to his server for hosting and sharing. The service is written such that:
+
+1. A user sends an image file to be uploaded to the upload API
+1. The service confirms the MIME type is an image to prevent executables from being uploaded
+1. The service invokes a scriptlet that moves the file from the temporary upload directory to the long-term storage directory
+
+Little does Johnny know that his service is likely vulnerable to a command injection. When the scriptlet runs, it likely works by running something like this:
+
+```python
+import subprocess
+
+# ..blah blah...
+
+subprocess.Popen(f"mv {tmpFile} {longTermFile}", shell=True)
+```
+
+By setting the filename of the file being uploaded to `/etc/passwd /var/www/html/public/ | #`, the atacker can exploit the scriptlet to move the `/etc/passwd` file to the public HTML folder. After it's been placed there, the attacker can then just download it like any other file over HTTP.
+
+NOTE: there are some parts of this example that would likely be thwarted by other defenses in place in a real-world attack, such as file permissions, but the general idea is sound.
+###### How to Fix?
+
+The best way to fix this issue is to not issue sub-commands to the OS. (Re-)Architect the application so that all operations are done within the service itself, or its related dependencies. That way, there's no risk of this happening at all.
+
+Sometimes that's not possible though and shell commands must be issued. In this case, the best way to protect against command injection is to use input validation and parameterization.
+
+First, configura a **whitelist** of the commands that you're expecting to be run. Research them to confirm there's no way to run arbitrary code using them (you would be surprised), and if there isn't, the commands are safe to run.
+
+Next, program your service so that it breaks up each string of the command into its own string, usually as a list or array. For example, using the `mv` command from above, parameterization would transform the single command string into `["mv", "filename.jpg", "long_term_filename.jpg"]`. Then you can wrap both of the filenames in single quotes, escape any existing single quotes, and then run the command to ensure the arguments are treated as files and not commands.
+###### Security Level
+
+Command injections typically lead to remote code execution, as stated above, though not always depending on how locked down the service is. Typically these normally create MEDIUM to CRITICAL level vulnerabilities when found.
+###### References
+
+- https://owasp.org/www-community/attacks/Command_Injection
+- https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html
+- https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/12-Testing_for_Command_Injection
 
 ---
 ### Preventing Cross-Site Request Forgery
