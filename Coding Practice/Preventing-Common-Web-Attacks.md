@@ -503,9 +503,11 @@ File uploads present a unique opportunity for attackers as they are able to writ
 ###### Example of Issue
 
 **Example 1 - Malicious File Distribution**
+
 A public file upload service accepts files for upload and allows them to share them via a static link. Because the site does not properly handle these uploads, attackers are able to upload malware and JS files used alongside other XSS vulnerabilities.
 
 **Example 2 - Service Exploitation**
+
 Several services share an object storage API. This API allows uploads of arbitrary files, and then returns a UUID that can be used to access the object later. An attacker finds this API, uses scanning tools to confirm the API is written in PHP, uploads a PHP file that downloads a backdoor, and then accesses it from the defined URL + token combo.
 
 This exploit works because:
@@ -515,6 +517,7 @@ This exploit works because:
 1. (Not required for exploit, but makes it easier) ["Dangerous" PHP functions](https://gist.github.com/mccabe615/b0907514d34b2de088c4996933ea1720) - such as `exec()` and `popen()` - were left enabled
 
 **Example 3 - Legal/Privacy Issues**
+
 A new service is created that allows customers to setup a website that allows their users to upload text documents to share fan-fiction. Unfortunately, the engineering team did not restrict file types, which allowed threat actors to upload malicious data - including illegal material - that was then displayed on the website and shared virally.
 ###### How to Fix?
 
