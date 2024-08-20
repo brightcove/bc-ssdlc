@@ -499,10 +499,23 @@ Depending on the case, SSRFs essentially allow an open proxy for outside attacke
 Many web applications support features that require the user to upload a file from their client to a backend application/server. Acceptance of these arbitrary files presents several security concerns, especially regarding malware, XSS, and content-sniffing.
 ###### Why We Care
 
-File uploads present a unique opportunity for attackers as they are able to write arbitrary files to a backend system. This often allows for greater access to internal networks, as well as increased vectors for subverting an application's logic.
+File uploads present a unique opportunity for attackers as they are able to write arbitrary files to a backend system. This often allows for greater access to internal networks and resources, as well as increased vectors for subverting an application's logic. It can also lead to privacy issues, legal issues, and other non-technical concerns.
 ###### Example of Issue
 
+**Example 1 - Malicious File Distribution**
 A public file upload service accepts files for upload and allows them to share them via a static link. Because the site does not properly handle these uploads, attackers are able to upload malware and JS files used alongside other XSS vulnerabilities.
+
+**Example 2 - Service Exploitation**
+Several services share an object storage API. This API allows uploads of arbitrary files, and then returns a UUID that can be used to access the object later. An attacker finds this API, uses scanning tools to confirm the API is written in PHP, uploads a PHP file that downloads a backdoor, and then accesses it from the defined URL + token combo.
+
+This exploit works because:
+
+1. The MIME type is not confirmed during upload
+1. Uploaded files were marked as executable by default
+1. (Not required for exploit, but makes it easier) ["Dangerous" PHP functions](https://gist.github.com/mccabe615/b0907514d34b2de088c4996933ea1720) - such as `exec()` and `popen()` - were left enabled
+
+**Example 3 - Legal/Privacy Issues**
+A new service is created that allows customers to setup a website that allows their users to upload text documents to share fan-fiction. Unfortunately, the engineering team did not restrict file types, which allowed threat actors to upload malicious data - including illegal material - that was then displayed on the website and shared virally.
 ###### How to Fix?
 
 The way to securely accept files for upload essentially boils down to verifying the data being uploaded is exactly what you expect to be uploaded, e.g. don't accept or serve up Javascript files if your service is used for image sharing only.
