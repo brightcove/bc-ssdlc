@@ -82,7 +82,12 @@ Note that you would need a reporting endpoint to receive the CSP violation repor
 ---
 ### X-Frame-Options
 
-This header tells the browser if framing the website is allowed by other domains. By setting this header to a list of allowed domains, or (preferably) simply deny framing, we can prevent Clickjacking attacks. Read more about clickjacking attacks here: https://www.owasp.org/index.php/Clickjacking
+This header tells the browser if framing the website is allowed by other domains. By setting this header to a list of allowed domains, or (preferably) simply deny framing, we can prevent Clickjacking attacks. Read more about clickjacking attacks here: <https://www.owasp.org/index.php/Clickjacking>
+
+**NOTE:** [X-Frame-Options][1] is being [obsoleted][2] by the Content-Security Policy header's "frame-ancestors" attribute<sup>[1][2]</sup>. This attribute is more flexible and should be added as well.
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+[2]: https://w3c.github.io/webappsec-csp/#frame-ancestors-and-frame-options
 
 **Recommended setting:**
 
@@ -90,8 +95,6 @@ This header tells the browser if framing the website is allowed by other domains
 
     Content-Security-Policy: frame-ancestors 'none';
 
-X-Frame-Options is being replaced by the Content-Security Policy header's "frame-ancestors" attribute. This attribute is more flexible and should be added as well. 
- 
 ---
 ### X-Content-Type-Options
 
