@@ -467,6 +467,11 @@ GET /video?url=http://admin.internal.company.com/secret-data
 ###### How to Fix?
 
 SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms. Specific instructions on fixing this will vary between languages, but in general:
+
+- If possible, use a popular, well-known (and optimally, audited) third-party library that performs validation for you
+  - Some examples are:
+    - NPM: [ssrf-req-filter](https://www.npmjs.com/package/ssrf-req-filter) , [request-filtering-agent](https://www.npmjs.com/package/request-filtering-agent) , [got-ssrf](https://www.npmjs.com/package/got-ssrf)
+    - Golang: [ssrf](https://pkg.go.dev/code.dny.dev/ssrf)
 - SSRF validation should be performed at the time **the data is fetched**, not when the URL is sent to the API/stored persistently
   - For example, a feature that downloads a picture from a user-supplied URL, processes and uploads it to Brightcove storage, and then accesses that file any time it's needed (say as a video preview image) would only have to validate it once during processing. If instead that feature dynamically fetches that same picture from the user-supplied URL **every time a video is loaded**, then validation would need to be performed during every dynamic fetch as the URL can update at any time
 - Whitelist URLs, if possible
