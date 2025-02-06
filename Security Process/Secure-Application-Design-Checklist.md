@@ -13,19 +13,19 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 #### Web Pages & APIs
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure all API endpoints that serve non-public data utilize BC tokens and Bifrost for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) / [Cross-Site Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-cross-site-request-forgery) |
-| If RBAC is being implemented, ensure sensitive endpoints are only accessible by the roles that require it | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) |
+| Ensure all API endpoints that serve non-public data utilize BC tokens/Bifrost for authentication and authorization for requests | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) / [Cross-Site Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-cross-site-request-forgery) |
+| If RBAC is being implemented, ensure endpoints are only accessible by the roles that require it | Requirement | [API Best Practices - Access Controls](../Coding%20Practice/API-Best-Practices.md#access-controls) |
 | Authentication tokens must have a static expiration date that's enforced on the backend network | Requirement | [API Best Practices - Replay Attacks](../Coding%20Practice/API-Best-Practices.md#replay-attacks) / [AuthZ and AuthN Guidelines - Limited Token Lifetimes](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limited-token-lifetimes) |
 | Ensure sensitive API actions can't be performed via click-jacking | Requirement | [Click-Jacking](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-clickjacking) |
 | If redirect URIs are being used with OAuth2 authentication requests, ensure the URIs are validated as pointing to the expected FQDN | Requirement | [AuthZ and AuthN Guidelines - Validating OAuth2 Redirect URIs](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#validating-oauth2-redirect-uris) |
-| Limit OAuth2 scopes in line with the Principle of Least Privilege | Recommendation | [AuthZ and AuthN Guidelines - Limit OAuth2 Scope](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limit-oauth2-scope-by-the-principle-of-least-privilege) |
-| Use and validate the state parameter with OAuth2 quthentication requests | Recommendation | [AuthZ and AuthN Guidelines - Validating the OAuth2 State Parameter](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#validating-the-oauth2-state-parameter) |
+| Limit OAuth2 scopes in line with the Principle of Least Privilege | Requirement | [AuthZ and AuthN Guidelines - Limit OAuth2 Scope](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#limit-oauth2-scope-by-the-principle-of-least-privilege) |
+| Use and validate the `state` parameter when validating OAuth2 authentication requests | Requirement | [AuthZ and AuthN Guidelines - Validating the OAuth2 State Parameter](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#validating-the-oauth2-state-parameter) |
 
 #### User Management
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | If passwords are being used, ensure the password policy complies with NIST 800-63 guidelines | Requirement | [AuthZ and AuthN Guidelines - Auth Guidelines](../Coding%20Practice/AuthZ-AuthN-Guidelines.md#authentication-guidelines) |
 | Disable/delete user account records after a specified amount of inactivity | Recommendation | [Data Retention](../Coding%20Practice/Data-Retention.md) |
@@ -36,7 +36,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 **Ex:** an encoding application listening on port 12345 for encoding requests and serving up completed encoding jobs
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure all incoming network requests for non-public data or sensitive actions are authenticated and authorized before being processed | Requirement | N/A |
 | Configure network access such that only the IP addresses/network hosts that need access to it, have access to it, and only for the ports and protocols in use (e.g. configure Security Groups to only allow web traffic from Brightcove IP addresses for internal applications) | Requirement | N/A |
@@ -45,11 +45,11 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 #### Web Pages & APIs
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
-| Ensure any untrusted input is properly encoded upon output | Requirement | [XSS Attacks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-xss) |
-| Add restrictions within web APIs to account for untrusted input sent to it | Requirement | [API Best Practices - Input Validation](../Coding%20Practice/API-Best-Practices.md#input-validation) |
-| Set the Content-Security Policy to the proper values to restrict content usage | Requirement | [HTTP Headers - CSP](../Coding%20Practice/HTTP-Header-Security.md#content-security-policy-csp) |
+| Ensure any untrusted input is properly sanitized/encoded upon output | Requirement | [XSS Attacks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-xss) |
+| Add checks and restrictions within web APIs to account for untrusted input sent to it | Requirement | [API Best Practices - Input Validation](../Coding%20Practice/API-Best-Practices.md#input-validation) |
+| Set the Content-Security Policy to the proper values to restrict what resources can be loaded | Requirement | [HTTP Headers - CSP](../Coding%20Practice/HTTP-Header-Security.md#content-security-policy-csp) |
 | Database calls must use paramaterized queries, where applicable | Requirement | [SQL Injection](../Coding%20Practice/Preventing-Common-Web-Attacks.md#preventing-sql-injection) |
 | Any service that accepts network addresses (FQDNs, IP addresses, hostnames) with the intention of initiating a connection to that address should ensure proper validation is in place to prevent malicious addresses from being used | Requirement | [Server-Side Request Forgery](../Coding%20Practice/Preventing-Common-Web-Attacks.md#server-side-request-forgery-ssrf) |
 | Arbitrary file uploads must be properly validated upon upload | Requirement | [Arbitrary File Uploads](../Coding%20Practice/Preventing-Common-Web-Attacks.md#arbitrary-file-uploads) |
@@ -60,14 +60,15 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 #### Networked Applications
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
+| Prefer using memory-safe languages when creating services and applications | Requirement | N/A |
 | When using memory-unsafe languages, ensure untrusted intput isn't used for declaring buffer size, and that buffer size is appropriate for the incoming data the buffer set to hold | Requirement | N/A |
 | Refrain from using object deserialization with untrusted data | Recommendation | N/A |
 
 ### Secrets Management
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure no plaintext secrets (passwords, API tokens, etc) are included within any code | Requirement | [Credential Leaks](../Coding%20Practice/Preventing-Common-Web-Attacks.md#credential-leaks) |
 | Any credentials needed for the application should be independently generated for the application, where applicable | Requirement | N/A |
@@ -76,22 +77,23 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 ### Encryption
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Confirm application confirms to Brightcove Cryptography Standards | Requirement | [BC Internal - SSDLC - Cryptography Standards](https://brightcove.atlassian.net/l/cp/H1FFN4ik) |
 
 #### Web Pages & APIs
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure TLS is used for all network communications, both internal and external | Requirement | [BC Internal - Guide to TLS - Should I Use TLS?](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ShouldIUseTLSForMyApplication'sNetworkCommunications%3F) |
 | When configuring TLS, ensure secure ciphers are used | Requirement | [BC Internal - Guide to TLS - Protocol and Ciphers](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905819/Guide+to+TLS#GuidetoTLS-ProtocolsandCiphers) |
 | Use HTTP Strict-Transport Security (HSTS) for all HTTP requests | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
+| When generating a TLS certificate for a service, make sure to include ALL FQDNs that point to that service as `Common Name` values | Requirement | [HTTP Headers - HTTP Strict Transport Security](../Coding%20Practice/HTTP-Header-Security.md#http-strict-transport-security) |
 | Make sure HTTP redirects (HTTP 30x) do not redirect users through HTTP (i.e. non-TLS, non-encrypted) endpoints before directing them to a TLS endpoint | Requirement | N/A |
 
 #### User Management
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure passwords are hashed, not encrypted | Requirement | [BC Internal - SSDLC - Cryptography - Storing Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-StoringofPasswords) |
 | Passwords must be salted when stored, before being hashed | Requirement | [BC Internal - SSDLC - Cryptography - Salting Passwords](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Salting) |
@@ -100,23 +102,42 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 #### Persistent Data Encryption
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Confirm all data is encrypted-at-rest at the disk level when stored persistently | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
 | Confirm confidential data (e.g. a customer's API token to a third-party service) is actively encrypted before being stored within a database | Requirement | [BC Internal - SSDLC - Cryptography - Encryption-at-Rest](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Recommendation+Encryption+Standards+Algorithms+and+Primitives#RecommendationEncryptionStandards%2CAlgorithms%2CandPrimitives-Encryption-At-Rest) |
+
+#### Software Integrity Validation
+
+| Action | Requirement or Recommendation? | Brightcove Reference |
+| ------ | ------------------------------ | ------------------ |
+| Confirm all code has been peer-reviewed before deployment | Requirement | [[AWS Well-Architected Framework - Security Pillar - SEC11-BP04 Conduct code reviews](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Ensure all artifacts are cryptographically signed with a valid certificate | Recommendation | [BC Internal - SSDLC - Cryptography - Digital Signatures](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905592/Cryptographic+Standards+Systems+Protocols+Algorithms+Primitives+and+More#Digital-Signatures) |
 
 ### Infrastructure
 
 #### Cloud Security
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure Brightcove Cloud Security Standards are met when creating or updating any cloud infrastructure | Requirement | [BC Internal - Cloud Security Standards](https://brightcove.atlassian.net/wiki/spaces/IS/pages/14031749252/Cloud+Security+Standards) |
 | Cloud resources must be configured following the Principle of Least Privilege | Requirement | [BC Internal - Guide to Security in AWS](https://brightcove.atlassian.net/wiki/spaces/IS/pages/905669/Guide+to+Security+in+AWS) |
+| Utilize a dedicated AWS account for a net-new service, i.e. don't mix resources from multiple resources into a single account | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC01-BP01 Separate workloads using accounts](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Infrastructure-as-Code must be used for management of resources | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC01-BP06 Automate deployment of standard security controls](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Infrastructure-as-Code must be deployed using CI/CD, preferably Jenkins/Spinnaker | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC06-BP04 Validate software integrity](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Ensure a high-level architectural diagram is created for the service and available to the SecEng and Ops teams | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC01-BP07 Identify threats and prioritize mitigations using a threat model](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+
+#### Networking
+
+| Action | Requirement or Recommendation? | Brightcove Reference |
+| ------ | ------------------------------ | ------------------ |
+| Resources must be properly segmented at the network level, e.g. the web server and the API for your service should likely not be in the same VPC/subnet | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC05-BP01 Create network layers](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Only allow the minimal amount of network access required when creating security groups | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC05-BP02 Control traffic flow within your network layers](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
+| Public access is only granted to services, networks, and ports that require public access by design | Requirement | [AWS Well-Architected Framework - Security Pillar - SEC05-BP02 Control traffic flow within your network layers](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
 
 #### Container Security
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Make sure to only use official, up-to-date official images | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Use-minimal,-trusted-base-images) |
 | Run applications as service account users as opposed to the default `root` user | Requirement | [BC Internal - Docker Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1889862929/Docker+Security+Guide#Don%E2%80%99t-run-the-container-as-root) |
@@ -127,7 +148,7 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 #### Kubernetes Security
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Run the container as non-root | Required | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Implement-a-Seccomp-Policy) |
 | Disallow container privilege escalation | Required | [BC Internal - Kubernetes Security Guide](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1891041307/Kubernetes+Security+Guide#Disallow-Privilege-Escalation) |
@@ -138,17 +159,17 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 ### Logging
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Configure log forwarding to a remote log server, SaaS service, or SIEM | Requirement | [BC Internal - SSDLC - Logging](https://brightcove.atlassian.net/wiki/spaces/IS/pages/1887208183/Logging+At+Brightcove#Logging-Setup) |
-| For server applications, logs must be traceable to an IP and user/customer | Requirement | N/A |
+| For public applications, logs must be traceable to an IP and user/customer | Requirement | N/A |
 | Ensure that confidential data values are excluded or scrubbed before being written to logs | Requirement | N/A |
 | Ensure logs are retained for at least 30 days | Requirement | N/A |
 | Include the ability for verbose logging to log any untrusted data and associated remote identifiers (e.g. user ID) | Recommendation | N/A |
 
 ### Data Retention
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure all PII-related data points that are collected and persistently stored include a method for automated or on-demand removal | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
 | Make sure to set a static expiration date for all data points of a given set | Requirement | [Data Retention](../Coding%20Practice/Data-Retention.md) |
@@ -156,22 +177,22 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 ### Security Tools
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Configure source code to be scanned by SAST platform | Requirement | [BC Internal - Tools - SAST](https://brightcove.atlassian.net/l/cp/YrLhrZn0) |
 | Integrate source code with dependency management application | Requirement | [BC Internal - Tools - Dependency Management](https://brightcove.atlassian.net/l/cp/C4aDRb4S) |
 
 ### Vulnerability Scanning/Patch Management
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure application containers are being scanned by vulnerability management platform | Requirement | [BC Internal - Tools - Vulnerability Scanning/Management](https://brightcove.atlassian.net/l/cp/e43G1MRa) |
-| Confirm application containers are patched before being deployed to production environments | Requirement | [BC Internal - SSDLC - Patching Guide](https://brightcove.atlassian.net/l/cp/e43G1MRa) |
+| Confirm application containers are patched for all critical and high vulnerabilities that have a fix available, before being deployed to production environments | Requirement | [BC Internal - SSDLC - Patching Guide](https://brightcove.atlassian.net/l/cp/e43G1MRa) |
 | Ensure that patching standards are followed and a plan is in place to patch the application and its infrastructure on a regular basis | Requirement | [BC Internal - SSDLC - Patching Standard](https://brightcove.atlassian.net/l/cp/jeCF9JkC) |
 
 ### SCM Security
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Ensure source code organizations and repos are only accessible by users who truly require access | Required | N/A |
 | Refrain from checking in any secret or confidential data to source code repos | Requirement | [BC Internal - SSDLC - Securing Development Environments](https://brightcove.atlassian.net/l/cp/Xy5bLWRF) |
@@ -181,7 +202,8 @@ The checklist is based on the list of security requirements outlined in the [Sec
 
 ### CI/CD Security
 
-| Action | Requirement or Recommendation? | BC SSDLC Reference |
+| Action | Requirement or Recommendation? | Brightcove Reference |
 | ------ | ------------------------------ | ------------------ |
 | Only use CI/CD platforms approved for use by Brightcove | Required | N/A |
 | Refrain from using hard-code secrets for deployments | Required | [BC Internal - SSDLC - Using Application Secrets Securely](https://brightcove.atlassian.net/l/cp/6Gp9fWaM) |
+| Have a plan in place to regularly reassess the CI/CD pipeline's security | Required | [AWS Well-Architected Framework - Security Pillar - SEC11-BP07 Regularly assess security properties of the pipelines](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html) |
