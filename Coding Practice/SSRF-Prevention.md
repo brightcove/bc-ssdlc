@@ -48,7 +48,7 @@ APIPA Address Range:
 <details>
   <summary>Golang Example</summary>
   
-  ```go
+```go
 func validateIPs(ips []net.IP) (bool, error) {
     if len(ips) == 0 {
         return false, errors.New("IP not found")
@@ -79,13 +79,14 @@ func validateIPs(ips []net.IP) (bool, error) {
 
     return true, nil
     }
-  ```
+```
+
 </details>
 
 <details>
   <summary>Gitlab's Ruby Example</summary>
   
-  ```ruby
+```ruby
 # Source: https://gitlab.com/gitlab-org/gitlab-foss/-/blob/eabd80f72f4f7d8e19b26526aa1f44c43d78e8b3/lib/gitlab/url_blocker.rb#L214-L240
 def validate_localhost(addrs_info)
     local_ips = ["::", "0.0.0.0"]
@@ -114,7 +115,8 @@ def validate_link_local(addrs_info)
 
     raise BlockedUrlError, "Requests to the link local network are not allowed"
 end
-  ```
+```
+
 </details>
 
 ### Step 2. Prevent secondary name resolution
@@ -133,18 +135,18 @@ The first is the method used by Gitlab in the video above (found [here](https://
 
 For example, change the user submitted URL:
 
-> https://www.mywebsite.com/validate
+`https://www.mywebsite.com/validate`
 
 to the following URL:
 
-> https://55.26.115.78/validate
+`https://55.26.115.78/validate`
 
 Simplified code example of how Gitlab validates a submitted URI and transforms it. The `protected_uri_with_hostname` returned is used by an HTTP client.
 
 <details>
   <summary>Gitlab's Ruby Example</summary>
   
-  ```ruby
+```ruby
 # Source: https://gitlab.com/gitlab-org/gitlab-foss/-/blob/eabd80f72f4f7d8e19b26526aa1f44c43d78e8b3/lib/gitlab/url_blocker.rb#L22
 require 'ipaddress'
 
@@ -174,10 +176,9 @@ rescue ArgumentError => error
     raise unless error.message.include?('hostname too long')
     raise BlockedUrlError, "Host is too long (maximum is 1024 characters)"
 end
-  ```
+```
+
 </details>
-
-
 
 This is effective, but you can run into issues if the destination web server is using virtual hosts. Without a domain to parse, the request will fail.
 
@@ -188,7 +189,7 @@ The second way to DNS Rebinding Attacks is to override the destination IP addres
 <details>
   <summary>Golang Example</summary>
   
-  ```go
+```go
 func sendGetRequest(webIP, host, scheme, path) (string, error) {
     dialer := &net.Dialer{
         Timeout:   10 * time.Second,
@@ -213,17 +214,19 @@ func sendGetRequest(webIP, host, scheme, path) (string, error) {
         return "", fmt.Errorf("error when doing a GET request to publisher webURL [%s]: %v", webURL, err)
     }
 }
-  ```
+```
+
 </details>
 
 <details>
   <summary>C# .NET Example</summary>
   
-  ```c#
+```c#
 HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://1.2.3.4");
 request.Host = "www.example.com";
 var response = request.GetResponse();
-  ```
+```
+
 </details>
 
 ## Full Code Examples
@@ -231,7 +234,7 @@ var response = request.GetResponse();
 <details>
   <summary>Golang Example</summary>
   
-  ```go
+```go
 func executeWebhook(webUrl string) {
     u, err := url.Parse(webUrl)
     if err != nil {
@@ -325,13 +328,14 @@ func sendGetRequest(webIP, host, scheme, path) (string, error) {
         return "", fmt.Errorf("error when doing a GET request to publisher webURL [%s]: %v", webURL, err)
     }
 }
-  ```
+```
+
 </details>
 
 <details>
   <summary>Gitlab's Ruby Example</summary>
   
-  ```ruby
+```ruby
 # Source: https://gitlab.com/gitlab-org/gitlab-foss/-/blob/eabd80f72f4f7d8e19b26526aa1f44c43d78e8b3/lib/gitlab/url_blocker.rb
 require 'ipaddress'
  
@@ -392,13 +396,14 @@ rescue ArgumentError => error
     raise unless error.message.include?('hostname too long')
     raise BlockedUrlError, "Host is too long (maximum is 1024 characters)"
 end
-  ```
+```
+
 </details>
 
 ## Resources
 
-* [PortSwigger SSRF Explanation and examples](https://portswigger.net/web-security/ssrf)
-* [OWASP SSRF Explanation](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery)
-* [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
-* [SSRF + DNS Rebinding Example](https://www.youtube.com/watch?v=R5WB8h7hkrU) (Video)
-* [Gitlab SSRF + DNS Rebinding Fix](https://gitlab.com/gitlab-org/gitlab-foss/-/blob/eabd80f72f4f7d8e19b26526aa1f44c43d78e8b3/lib/gitlab/url_blocker.rb#L22)
+- [PortSwigger SSRF Explanation and examples](https://portswigger.net/web-security/ssrf)
+- [OWASP SSRF Explanation](https://owasp.org/www-community/attacks/Server_Side_Request_Forgery)
+- [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [SSRF + DNS Rebinding Example](https://www.youtube.com/watch?v=R5WB8h7hkrU) (Video)
+- [Gitlab SSRF + DNS Rebinding Fix](https://gitlab.com/gitlab-org/gitlab-foss/-/blob/eabd80f72f4f7d8e19b26526aa1f44c43d78e8b3/lib/gitlab/url_blocker.rb#L22)

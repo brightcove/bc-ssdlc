@@ -2,13 +2,13 @@
 
 ## Overview
 
-This document describes the HTTP security headers that we strongly recommend are implemented on all of Brightcove’s Internet-facing services. 
+This document describes the HTTP security headers that we strongly recommend are implemented on all of Brightcove’s Internet-facing services.
 
-https://observatory.mozilla.org can be used to check your site's current headers. The headers are listed in order of importance, but please note that a proper secure Content Security Policy can be difficult to implement unless the application is designed from the beginning with this in mind.
+<https://observatory.mozilla.org> can be used to check your site's current headers. The headers are listed in order of importance, but please note that a proper secure Content Security Policy can be difficult to implement unless the application is designed from the beginning with this in mind.
 
 Therefore, try to get some quick wins with headers such as: `HTTP Strict Transport Security`, `X-Frame-Options`, and `X-Content-Type-Options` first.
 
-For applications that only offer web APIs; check the recommendations under [API](#api) at the bottom of the page.
+For applications that only offer web APIs; check the recommendations under [API](#notes-on-apis) at the bottom of the page.
 
 - [HTTP Strict Transport Security](#http-strict-transport-security)
 - [Content-Security-Policy](#content-security-policy-csp)
@@ -18,6 +18,7 @@ For applications that only offer web APIs; check the recommendations under [API]
 - [API](#notes-on-apis)
 
 ## Headers
+
 ### HTTP Strict Transport Security
 
 The strict transport security header tells browsers to load the website over encrypted connections only from now on. This helps avoid what is called SSL stripping attacks where an attacker who are in a Man-In-The-Middle position downgrades a user to an insecure connection.
@@ -28,29 +29,30 @@ The strict transport security header tells browsers to load the website over enc
 
 This tells the browser to remember using HTTPS for one day. _Note that you cannot switch back to HTTP for the duration of "max-age". It is wise to start with a lower value for testing and increase it once you are confident the application works as intended._
 
-Once confident that it's working you should aim for a max-age of minimum 6 months (max-age=15768000) but preferably 2 years (max-age=63072000). 
+Once confident that it's working you should aim for a max-age of minimum 6 months (max-age=15768000) but preferably 2 years (max-age=63072000).
 
 **Recommended final setting:**
-    
+
     Strict-Transport-Security: max-age=63072000
 ---
+
 ### Content-Security-Policy (CSP)
 
 This header aims to reduce, and even eliminate, the impact of XSS (Cross-Site Scripting) attacks. It can be used to tell the browser where the website is supposed to load web resources from.
 
 A nice tool for generating your policy and get an explanation for all the directives can be found here. Note that this site can also serve as a reporting endpoint to test the policy without enforcing it:
 
-https://report-uri.io/home/generate
+<https://report-uri.io/home/generate>
 
 Quoted from Mozilla:
 
->The primary benefit of CSP comes from disabling the use of unsafe inline JavaScript. Inline JavaScript -- either reflected 
->or stored -- means that improperly escaped user-inputs can generate code that is interpreted by the web browser as 
->JavaScript. By using CSP to disable inline JavaScript, you can effectively eliminate almost all XSS attacks against your site. 
+>The primary benefit of CSP comes from disabling the use of unsafe inline JavaScript. Inline JavaScript -- either reflected
+>or stored -- means that improperly escaped user-inputs can generate code that is interpreted by the web browser as
+>JavaScript. By using CSP to disable inline JavaScript, you can effectively eliminate almost all XSS attacks against your site.
 
-Take a look at this site for more info: https://csp.withgoogle.com/.
+Take a look at this site for more info: <https://csp.withgoogle.com/>.
 
-Google has found that most CSP policies that utilize whitelisting do not prevent XSS, mainly because they are bypassable due to abusable endpoints on the whitelisted domains (such as google.com). Therefore, the recommended approach is no longer whitelisting, but use of hashes or nonces. This is a bit more tricky to implement as it requires that every `<script>` tag has an associated randomly-generated nonce that is set in the CSP header sent withing the server response. Additionally, the associated `<script>` tag must also have the same nonce added to it via the `nonce` attribute. 
+Google has found that most CSP policies that utilize whitelisting do not prevent XSS, mainly because they are bypassable due to abusable endpoints on the whitelisted domains (such as google.com). Therefore, the recommended approach is no longer whitelisting, but use of hashes or nonces. This is a bit more tricky to implement as it requires that every `<script>` tag has an associated randomly-generated nonce that is set in the CSP header sent withing the server response. Additionally, the associated `<script>` tag must also have the same nonce added to it via the `nonce` attribute.
 
 E.g:
 
@@ -64,8 +66,6 @@ E.g:
     base-uri 'none';
     frame-ancestors 'none';
 
- 
-
 **Report-only mode:**
 
     Content-Security-Policy-Report-Only:
@@ -75,11 +75,10 @@ E.g:
     frame-ancestors 'none';
     report-uri /csp-violation-report-endpoint/  
 
- 
-
-Note that you would need a reporting endpoint to receive the CSP violation reports at `<your-domain-name>/csp-violation-report-endpoint` for this last example to work properly. 
+Note that you would need a reporting endpoint to receive the CSP violation reports at `<your-domain-name>/csp-violation-report-endpoint` for this last example to work properly.
 
 ---
+
 ### X-Frame-Options
 
 This header tells the browser if framing the website is allowed by other domains. By setting this header to a list of allowed domains, or (preferably) simply deny framing, we can prevent Clickjacking attacks. Read more about clickjacking attacks here: <https://www.owasp.org/index.php/Clickjacking>
@@ -96,6 +95,7 @@ This header tells the browser if framing the website is allowed by other domains
     Content-Security-Policy: frame-ancestors 'none';
 
 ---
+
 ### X-Content-Type-Options
 
 This header tells the browser not to guess the MIME (Multipurpose Internet Mail Extension) type of the content served, but instead trust the “Content-Type” header. Without the X-Content-Type-Options header set, some older browsers can incorrectly detect files as scripts and stylesheets, potentially leading to XSS attacks.
@@ -105,11 +105,12 @@ This header tells the browser not to guess the MIME (Multipurpose Internet Mail 
     X-Content-Type-Options: nosniff
 
 ---
+
 ### Referrer-Policy
 
 The header basically controls what is being sent in the referer header. The security benefit from using this header is to avoid situations where session identifiers or other sensitive information which is transmitted in the URL is passed to other domains via the referer header.
 
-There are different options here which range from sending no referer header whatsoever to sending only the domain (origin). The best setting must be determined based on the application's use of the referer header. The recommended setting "origin" only sends the domain name and not the path part of the URL. It is also chosen because it is supported across the largest body of browsers. 
+There are different options here which range from sending no referer header whatsoever to sending only the domain (origin). The best setting must be determined based on the application's use of the referer header. The recommended setting "origin" only sends the domain name and not the path part of the URL. It is also chosen because it is supported across the largest body of browsers.
 
 **Recommended setting:**
 
@@ -118,6 +119,7 @@ There are different options here which range from sending no referer header what
 We can also want to do "Referrer-Policy: strict-origin" to only send the referrer header to sites that are HTTPS to protect the user's privacy. Just take into consideration that it's currently not supported on Edge and Safari.
 
 ---
+
 ### Notes on APIs
 
 For APIs (Application Programming Interfaces) we want to ensure traffic is encrypted and restrict the potential impact of XSS vulnerabilities e.g. in error pages then they can't be used to run Javascript due to the Content-Security Policy not allowing scripts or iframes.
@@ -133,12 +135,12 @@ Note that for APIs with documentation on the same domain such as Swagger, this w
 
 ---
 
-###### Resources:
+## Resources
 
 For more best practices and recommendations by Mozilla on Web Application Security see this link:
 
-- https://developers.google.com/web/fundamentals/security/csp/
-- https://wiki.mozilla.org/Security/Guidelines/Web_Security
-- https://csp.withgoogle.com/
-- https://www.w3.org/TR/referrer-policy/
-- http://caniuse.com/#feat=referrer-policy
+- <https://developers.google.com/web/fundamentals/security/csp/>
+- <https://wiki.mozilla.org/Security/Guidelines/Web_Security>
+- <https://csp.withgoogle.com/>
+- <https://www.w3.org/TR/referrer-policy/>
+- <http://caniuse.com/#feat=referrer-policy>
