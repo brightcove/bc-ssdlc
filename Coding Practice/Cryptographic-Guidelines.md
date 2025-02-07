@@ -1,10 +1,8 @@
 # Cryptographic Guidelines [Coding Practice]
 
-<font size="-1">*Brandon Caldwell Jan 2019*</font>
-
 ## Overview
 
-This document provides guidelines for how utilize encryption to protect data in transit and at rest. Cryptographic requirements at [COMPANY_NAME] are heavily influenced by NIST's Cryptographic Standards and Guidelines (CSRC) documentation.
+This document provides guidelines for how utilize encryption to protect data in transit and at rest. Cryptographic requirements at Brightcove are heavily influenced by NIST's Cryptographic Standards and Guidelines (CSRC) documentation.
 
 - [Store the Cryptographic Hash of a Password](#store-the-cryptographic-hash-of-a-password)
 - [Encrypt Sensitive Data At Rest](#encrypt-sensitive-data-at-rest)
@@ -17,9 +15,9 @@ This document provides guidelines for how utilize encryption to protect data in 
 
 ### Store the Cryptographic Hash of a Password
 
-User passwords should be stored as cryptographic hashes. Cleartext or encrypted password storage are not permitted. For more information on the reasons behind this, check out [this article](https://auth0.com/blog/hashing-passwords-one-way-road-to-security/) by Auth0. The Security Team recomends **using an algorithm like BCrypt, PBKDF2, or Argon2 **; these should be used with a decent work-factor. Hashed passwords should be salted with at least a 32-bit random salt. Remember that hashing algorithms are intentionally slow by design. The slower they are, the longer they take to crack.
+User passwords should be stored as cryptographic hashes. Cleartext or encrypted password storage are not permitted. For more information on the reasons behind this, check out [this article](https://auth0.com/blog/hashing-passwords-one-way-road-to-security/) by Auth0. The Security Team recomends **using an algorithm like BCrypt, PBKDF2, or Argon2**; these should be used with a decent work-factor. Hashed passwords should be salted with at least a 32-bit random salt. Remember that hashing algorithms are intentionally slow by design. The slower they are, the longer they take to crack.
 
-##### Hash Algorithms for other user cases:
+#### Hash Algorithms for other user cases
 
 - Language Agnostic
   - SHA-512
@@ -42,14 +40,14 @@ User passwords should be stored as cryptographic hashes. Cleartext or encrypted 
 
 Sensitive data should be encrypted when stored and then decrypted when accessed. Examples:
 
-- Credentials intended to be used by the backend on behalf of the user (e.g., webhook credentials, VCS API tokens) 
+- Credentials intended to be used by the backend on behalf of the user (e.g., webhook credentials, VCS API tokens)
 - Personally Identifiable Information (PII)
 - Medical Records
 - Payment information
 
 Maintained, trustworthy implementations of industry approved cryptographic algorithms, ciphers, and modes should be used to accomplish this. Writing your own cryptography is strongly discouraged.
 
-**The Security Team recommends using AES-256 GCM as the algorithm and key-size for symmetric encryption**. Keep in mind that encryption standards are constantly changing, so it is important to keep your encryption and decryption functionality customizable and upgradable. If you are unsure if your data needs to be encrypted, consult with the [COMPANY_NAME] Governance and Compliance team or the [COMPANY_NAME] Legal team for help making that determination.
+**The Security Team recommends using AES-256 GCM as the algorithm and key-size for symmetric encryption**. Keep in mind that encryption standards are constantly changing, so it is important to keep your encryption and decryption functionality customizable and upgradable. If you are unsure if your data needs to be encrypted, consult with the Brightcove Governance and Compliance team or the Brightcove Legal team for help making that determination.
 
 #### Authentication
 
@@ -67,13 +65,13 @@ Most well known encryption libraries like Bouncy Castle and Conceal handle IV ge
 
 #### Asymmetric Encryption Standard
 
-Encryption should be used for any network communication between client-to-service and service-to-service communications. 
+Encryption should be used for any network communication between client-to-service and service-to-service communications.
 
 Maintained, trustworthy implementations of industry approved cryptographic algorithms, ciphers, and modes should be used to accomplish this. Writing your own cryptography is strongly discouraged.
 
-RSA-4096 should be used for asymmetric encryption and store the private keys in a secure location outside of your codebase. If it is found that RSA-4096 becomes too resource intensive, it is acceptable to lower this to RSA-2048; this should only be a problem in very high-load environments. 
+RSA-4096 should be used for asymmetric encryption and store the private keys in a secure location outside of your codebase. If it is found that RSA-4096 becomes too resource intensive, it is acceptable to lower this to RSA-2048; this should only be a problem in very high-load environments.
 
-Enforce certificate verification in all HTTP clients. 
+Enforce certificate verification in all HTTP clients.
 
 #### Usage Guidance
 
@@ -108,19 +106,19 @@ Accepted TLS Cipher suites:
 
 ##### Recommended Libraries
 
-- [libsodium](https://libsodium.org) - _([Github](https://github.com/jedisct1/libsodium))_
-- [OpenSSL](https://www.openssl.org/) - _([Github](https://github.com/openssl/openssl))_
+- [libsodium](https://libsodium.org) - *([Github](https://github.com/jedisct1/libsodium))*
+- [OpenSSL](https://www.openssl.org/) - *([Github](https://github.com/openssl/openssl))*
 
 ##### Resources
 
-- https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
+- <https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices>
 - [Qualys SSL/TLS Server Test](https://www.ssllabs.com/ssltest/)
 
 > NOTE: Where possible, we recommend Elliptic Curve Cryptography (ECC / ECDH), with Curve25519 (for signatures and key exchange)
 
 ### Facilitate and Exercise Key Rotation
 
-All encryption keys have a lifetime. The longer they are actively used to encrypt data the higher the chance that the key will be leaked and data will be compromised. To protect against this, keys should be rotated at least every year and in highly sensitive environments like PCI it should occur every six months. 
+All encryption keys have a lifetime. The longer they are actively used to encrypt data the higher the chance that the key will be leaked and data will be compromised. To protect against this, keys should be rotated at least every year and in highly sensitive environments like PCI it should occur every six months.
 
 In order to support periodic and on-demand (e.g., security incident) key rotation, your application should support reconfiguration of your encryption or hashing implementation. It should also facilitate m
 
@@ -147,7 +145,7 @@ When rotating keys it is often necessary for previous keys to stay around for a 
 - **Apple OS X** *(<10.7)*: Use /dev/random to retrieve random numbers
 - **Java** *(including Google Android Java code)*- java.security.SecureRandom class. Note that for Android 4.3 (Jelly Bean), developers must follow the Android recommended workaround and pdate their applications to explicitly initialize the PRNG with entropy from /dev/urandom or dev/random
 
-Source: https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html#secure-random-number-generation
+Source: <https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html#secure-random-number-generation>
 
 ### Store Private and Symmetric Keys in a Secure Location
 
@@ -155,10 +153,10 @@ Private and symmetric keys should be stored in a secret storage solution that ma
 
 ### References
 
-- https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r1.pdf
-- https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r2.pdf
+- <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r1.pdf>
+- <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r2.pdf>
 
-### Contributors
+## Contributors
 
-* Jose Perez - Mar. 2020
-* Andrew Luke - December 2021
+- Jose Perez - Mar. 2020
+- Andrew Luke - December 2021

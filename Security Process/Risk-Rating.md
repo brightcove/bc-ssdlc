@@ -1,13 +1,15 @@
-# Risk Rating (aka., Security Bug Bar) [Security Process]
-<font size="-1">_Author: Carlo Valentin - Dec. 2018_</font>
+# Risk Rating (aka. Security Bug Bar) [Security Process]
 
-# Overview
+## Overview
+
 When vulnerabilities are identified by Application Security, the risk of the vulnerability needs to be effectively communicated to teams so that they can be fixed in a timely manner. As such, a standard set of definitions is needed for how Application Security classifies these vulnerabilities. These definitions ensure that development teams can quickly and easily understand the potential risk a vulnerability poses to their application or service. This gives a unified understanding of how to prioritize fixing known vulnerabilities.
 
 ## Description
-When communicating vulnerabilities within security and to Unity’s product teams, Application Security has defined definitions and classes for the risk of each vulnerability. In determining the risk rating for a particular vulnerability, an aggregate score is used by taking the Impact and Likelihood ratings of a vulnerability and giving it a final rating. This provides the flexibility of taking different aspects of a vulnerability into account, while defining the standard by what Application Security judges vulnerabilities against.
 
-##### Classification via Rating Matrix
+When communicating vulnerabilities within security and to Brightcove’s product teams, Application Security has defined definitions and classes for the risk of each vulnerability. In determining the risk rating for a particular vulnerability, an aggregate score is used by taking the Impact and Likelihood ratings of a vulnerability and giving it a final rating. This provides the flexibility of taking different aspects of a vulnerability into account, while defining the standard by what Application Security judges vulnerabilities against.
+
+## Classification via Rating Matrix
+
 In order to determine the risk rating for a vulnerability, take the identified Impact and Likelihood and use the matrix below to determine the final rating.
 
 <table>
@@ -27,12 +29,9 @@ In order to determine the risk rating for a vulnerability, take the identified I
 </tr>
 </table>
 
+## Risk Rating
 
-
-
-
-### Risk Rating
-The risk rating determines the level of risk a vulnerability poses to Unity, and affects the prioritization of when to fix a bug.
+The risk rating determines the level of risk a vulnerability poses to Brightcove, and affects the prioritization of when to fix a bug.
 
 The rating definitions are as follows:
 
@@ -44,9 +43,10 @@ The rating definitions are as follows:
 
 - Low - A vulnerability that has minor impact or can only be exploited in a chain of other vulnerabilities.
 
-For more information on determining the Risk Rating/Severity here at Unity, please see our [Unity Security Bug Bar](./Bug-Bar.md).
+For more information on determining the Risk Rating/Severity here at Brightcove, please see our [Brightcove Security Bug Bar](./Bug-Bar.md).
 
-### Impact
+## Impact
+
 Impact classifies the reach and effect that occurs when the vulnerability is successfully exploited. This rating should take into account the loss of confidentiality, integrity, and availability of the targeted system. Reputational damage also plays a factor when rating impact.
 
 Impact ratings are classified as follows:
@@ -57,8 +57,9 @@ Impact ratings are classified as follows:
 
 - Low - Attackers can read or modify a small amount of system data or negatively affect other users’ experiences with the application. Exploitation may be limited in only affecting a single non-privileged target.
 
-### Likelihood
-Likelihood classifies the probability an vulnerability will be exploited. This rating should take into account the availability of information needed to exploit the vulnerability, social engineering requirements, authorization requirements, and if the issue has been publicly reported to Unity by a third-party.
+## Likelihood
+
+Likelihood classifies the probability an vulnerability will be exploited. This rating should take into account the availability of information needed to exploit the vulnerability, social engineering requirements, authorization requirements, and if the issue has been publicly reported to Brightcove by a third-party.
 
 Likelihood ratings are classified as follows:
 

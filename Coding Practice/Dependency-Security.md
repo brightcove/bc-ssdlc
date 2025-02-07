@@ -63,8 +63,8 @@ Avoid usage of *--extra-index-url* when using *pip* in your deployment scripts o
 
 ### References
 
-- https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610
-- https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/
+- <https://medium.com/@alex.birsan/dependency-confusion-4a5d60fec610>
+- <https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/>
 
 ## NPM/Yarn
 
@@ -76,38 +76,32 @@ Node Package Manager (NPM) by default uses the [https://npmjs.com](https://npmjs
 
 The following mitigations should be in place:
 
-1. Define strict scopes for 
+1. Define strict scopes for dependencies
+   1. Leverage the \@scope notation in order to define explicit scopes for packages in the project's local .npmrc file
+   1. Example:
 
-   dependencies
-
-   ​	a. Leverage the \@scope notation in order to define explicit scopes for packages in the project's local .npmrc file
-
-   ​	b. Example:
-
-```
+```npmrc
 @mycompany:registry = https:``//registry.mycompany.local/
 ```
 
-1. Only use trusted or private registries, and do not proxy external registries.
+1. Only use trusted or private registries, and do not proxy external registries
+1. Use explicit version numbers in the package.json
+   1. Example:
 
-2. Use explicit version numbers in the package.json
-
-   ​	a. Example:
-
-```
+```json
 {
-	"name": "@mycompany/foo",
-	"version": "1.2.3",
-	"description": "just a scoped package name example",
-	"dependencies": {
-		"@mycompany/bar": "2.0"
-	}
+ "name": "@mycompany/foo",
+ "version": "1.2.3",
+ "description": "just a scoped package name example",
+ "dependencies": {
+  "@mycompany/bar": "2.0"
+ }
 }
 ```
 
 ### References
 
-- https://github.blog/2021-02-12-avoiding-npm-substitution-attacks/
+- <https://github.blog/2021-02-12-avoiding-npm-substitution-attacks/>
 
 ## Golang - Go Modules
 
@@ -121,8 +115,8 @@ Only use Go Modules for dependency management. Other Go dependency management so
 
 ### References
 
-- https://blog.golang.org/using-go-modules
-- https://golang.org/ref/mod
+- <https://blog.golang.org/using-go-modules>
+- <https://golang.org/ref/mod>
 
 ## Maven
 
@@ -138,8 +132,8 @@ Maven currently has no integrated features for further checks. Your only option 
 
 ### References
 
-- Sourced from: https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/
-- https://maven.apache.org/guides/mini/guide-mirror-settings.html#using-a-single-repository
+- Sourced from: <https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/>
+- <https://maven.apache.org/guides/mini/guide-mirror-settings.html#using-a-single-repository>
 
 ## Nuget
 
@@ -151,15 +145,15 @@ Multiple package sources specified by user or project. The latest version found 
 
 Clear all packageSource settings in project configuration or nuget.config, add only your private gallery, and enable upstreams. Ensure your nuget.config packageSources section starts with a `<clear />` entry to remove any inherited configuration, and use a single `<add />` entry for your private feed.
 
-Prefer the “nuget restore --locked-mode” command and include a generated packages.lock.json with your project. A packages.lock.json file will be automatically created on “nuget restore.” When the file exists and is included with your project, it will be used by “nuget restore --locked-mode” to validate that the packages have not changed using version pinning and integrity checking. 
+Prefer the “nuget restore --locked-mode” command and include a generated packages.lock.json with your project. A packages.lock.json file will be automatically created on “nuget restore.” When the file exists and is included with your project, it will be used by “nuget restore --locked-mode” to validate that the packages have not changed using version pinning and integrity checking.
 
 An ID prefix can be registered by publishers to restrict uploads to the public gallery. Packages under a registered prefix can only be uploaded by approved accounts, which also protects against public substitution attacks. This reservation can be done whether you intend to publish your packages to [NuGet.org](http://nuget.org/) or not. Using a registered ID prefix for private packages helps ensure that an attacker cannot claim any of your names.
 
 ### References
 
-- Sourced from: https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/
-- https://docs.microsoft.com/en-us/nuget/nuget-org/id-prefix-reservation
-- https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files#locking-dependencies
+- Sourced from: <https://azure.microsoft.com/en-us/resources/3-ways-to-mitigate-risk-using-private-package-feeds/>
+- <https://docs.microsoft.com/en-us/nuget/nuget-org/id-prefix-reservation>
+- <https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files#locking-dependencies>
 
 ## Brew
 
@@ -185,7 +179,7 @@ Remove all third party repository sources from the Virtual Repository lists, or 
 
 ### References
 
-- https://www.jfrog.com/confluence/display/JFROG/Virtual+Repositories
+- <https://www.jfrog.com/confluence/display/JFROG/Virtual+Repositories>
 
 ## Jenkins
 
@@ -199,7 +193,7 @@ Use an explicit package version when pulling from the Jenkins Artifactory. Consi
 
 ### References
 
-- https://www.jenkins.io/doc/developer/publishing/artifact-repository/
+- <https://www.jenkins.io/doc/developer/publishing/artifact-repository/>
 
 ## Gems
 
@@ -225,9 +219,9 @@ When specifying required gems with Bundler,
 - **Do** wrap gems from alternate/private sources blocks. This specifies the proper source for gems from alternate sources. Alternatively, you can specify individual gems inline if only one gem is required from a particular private source.
 - **Do** explicitly define sources to routes using `https://`
 
-**Bundler Config For Multiple Sources**
+#### Bundler Config For Multiple Sources
 
-```
+```ruby
 # Global Sourced Gems
 source 'https://rubygems.org'
  
@@ -247,14 +241,11 @@ gem 'testgem', :git => 'https://github.com/company-internal/testgem.git', :branc
 
 ## References
 
-https://mensfeld.pl/2021/02/rubygems-dependency-confusion-attack-side-of-things/
-
-https://bundler.io/gemfile.html
-
-https://bundler.io/man/gemfile.5.html
-
-https://bundler.io/man/gemfile.5.html#SOURCE-PRIORITY
+- <https://mensfeld.pl/2021/02/rubygems-dependency-confusion-attack-side-of-things/>
+- <https://bundler.io/gemfile.html>
+- <https://bundler.io/man/gemfile.5.html>
+- <https://bundler.io/man/gemfile.5.html#SOURCE-PRIORITY>
 
 ## Contributors
 
-* Carlo Valentin, Cody Ebert, Frankie Arana, Jonathan Downing, Andrew Luke - December 2021
+- Carlo Valentin, Cody Ebert, Frankie Arana, Jonathan Downing, Andrew Luke - December 2021
