@@ -559,66 +559,7 @@ This attack is typically classified as a low risk vulnerability, mainly because:
 
 ### Server-Side Request Forgery (SSRF)
 
-#### Description
-
-Server-Side Request Forgeries (SSRF), similar to CSRFs described above, abuse the trust given to remote data being sent across a network. With CSRFs, this abuse occurs in the trust granted to a client-side request; the client sends a request that the server then (mistakenly) assumes should be executed. With SSRFs, this same abuse occurs, but with requests coming from other servers within Brightcove's network.
-
-#### Why We Care
-
-Often, organizations will grant more trust to endpoints _within_ their network than external hosts, such as internet endpoints. This means that when an SSRF vulnerability is found, it's often as simple as the attacker sending regular HTTP requests to gain access to internal-only data, such as PII.
-
-This has also become more of an issue with the usage of cloud computing. A lot of cloud computing companies grant trust to an individual computing instance that allows access to cloud APIs. An example of this would be AWS's metadata endpoint that's reachable from all EC2 instances: `169.254.169.254`
-
-Since Brightcove integrates with customers' media and APIs, we have a lot of our own APIs that support making arbitrary network requests. The intention is to limit it to only legitimate customer content, but we've had SSRFs come up with these endpoints in the past for these services.
-
-#### Example of Issue
-
-An example of this type of issue would be an API that fetches videos from an arbitrary URL. The URL is supplied via a GET variable:
-
-```HTTP
-GET /video?url=http://my.video.com/video.mp4
-```
-
-If this variable data isn't sanitized properly, and attacker could supply any URL, including one that's internally-accessible:
-
-```HTTP
-GET /video?url=http://admin.internal.company.com/secret-data
-```
-
-#### How to Fix?
-
-SSRFs can be tricky to fix since a lot of HTTP and network libraries allow the user to supply the IP/FQDN/URL in many forms. Specific instructions on fixing this will vary between languages, but in general:
-
-- If possible, use a popular, well-known (and optimally, audited) third-party library that performs validation for you
-  - Some examples are:
-    - NPM: [ssrf-req-filter](https://www.npmjs.com/package/ssrf-req-filter) , [request-filtering-agent](https://www.npmjs.com/package/request-filtering-agent) , [got-ssrf](https://www.npmjs.com/package/got-ssrf)
-    - Golang: [ssrf](https://pkg.go.dev/code.dny.dev/ssrf)
-- SSRF validation should be performed at the time **the data is fetched**, not when the URL is sent to the API/stored persistently
-  - For example, a feature that downloads a picture from a user-supplied URL, processes and uploads it to Brightcove storage, and then accesses that file any time it's needed (say as a video preview image) would only have to validate it once during processing. If instead that feature dynamically fetches that same picture from the user-supplied URL **every time a video is loaded**, then validation would need to be performed during every dynamic fetch as the URL can update at any time
-- Whitelist URLs, if possible
-  - Don't bother trying to blacklist; there's too many protocols and URL schemes to account for for this to be effective
-- Don't allow URLs with RFC-1918 (private) IP addresses specified for the host
-  - Resolve all FQDNs to IP addresses before performing this verification
-- Normalize URL components before evaluation (e.g. ensure the host component isn't a decimal-encoded IP address)
-- Ensure that HTTP redirects (HTTP 30x) are **NOT** followed
-  - This is to protect against an attacker utilizing a web server (or abusing a link-shortener service) to perform an HTTP redirect to a private IP (e.g. `Location: http://169.254.169.254/metadata/v1/user-data`)
-- Limit the HTTP verbs/methods that can be used with your API
-  - Ex: if your API just serves up static data read by other services, allow GET requests and generate an error for all others
-- Use authentication for internal services whenever possible
-  - This is especially important with databases, e.g. Redis, Kibana, etc
-  - This practice falls in line with Zero-Trust Architecture, the primary security architecture framework employed by Brightcove Security Engineering
-
-For a list of payloads to code for, see [this document in PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Request%20Forgery/README.md).
-
-#### Security Level
-
-Depending on the case, SSRFs essentially allow an open proxy for outside attackers to run arbitrary network requests on an organization's internal network. Since this is typically where sensitive data is stored, and internal networks commonly have less safeguards than external network zones, this often presents a Medium to High risk.
-
-#### References
-
-- <https://portswigger.net/web-security/ssrf>
-- <https://blog.detectify.com/2019/01/10/what-is-server-side-request-forgery-ssrf/>
-- <https://owasp.org/www-community/attacks/Server_Side_Request_Forgery>
+See [SSRF Prevention](./SSRF-Prevention.md).
 
 ---
 
